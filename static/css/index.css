@@ -1,0 +1,40 @@
+/* General styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #cce6f7;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #70bff3;
+    color: rgb(12, 12, 12);
+}
+
+.navbar .logo h1 {
+    margin: 0;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links a, #loginBtn {
+    color: #111111;
+    text-decoration: none;
+    font-size: 16px;
+    background-color: #fce7af;
+    padding: 10px 20px;
+    border-radius: 25px;
+    border: 2px solid #111111;
+}
+
+.nav-links a:hover, #loginBtn:hover {
+    background-color: #555;
+}
+
