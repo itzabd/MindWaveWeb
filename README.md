@@ -6,9 +6,9 @@ If someone else clones the project, they can recreate the virtual environment by
 
 `python -m venv .venv` <br>
 `pip install -r requirements.txt`
-<br>
-How to Create .env
-Create a .env file in the root directory with the following PostgreSQL configurations:
+<br><br>
+How to Create .env<br>
+Create a .env file in the root directory with the following PostgreSQL configurations:<br><br>
 
 `PG_USER=your_database_username` <br>
 `PG_PASS=your_database_password` <br>
