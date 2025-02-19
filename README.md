@@ -1,10 +1,11 @@
 # MindWaveWeb
 A web app that leverages LLM-powered classification to analyze EEG data, providing insights into cognitive patterns and brain activity. 🚀🧠
+<br>
 How to Recreate .venv
 If someone else clones the project, they can recreate the virtual environment by running:
 
 `python -m venv .venv && pip install -r requirements.txt`
-
+<br>
 How to Create .env
 Create a .env file in the root directory with the following PostgreSQL configurations:
 
