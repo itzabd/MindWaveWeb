@@ -10,7 +10,7 @@ from datetime import datetime
 app = Flask(__name__)
 
 # Database configuration
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:mnbvcxz@localhost/flaskapp_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:4297@localhost/flaskapp_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'your_secret_key'  # Required for session management (for Flask-Login)
 
