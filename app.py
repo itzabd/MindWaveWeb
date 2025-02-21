@@ -4,13 +4,14 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
-
+import time
+from sqlalchemy.exc import OperationalError
 
 # Initialize the Flask app
 app = Flask(__name__)
 
 # Database configuration
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:4297@localhost/flaskapp_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:4297@db/flaskapp_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'your_secret_key'  # Required for session management (for Flask-Login)
 
@@ -40,7 +41,6 @@ class User(db.Model, UserMixin):
     # Method to check the password
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
-
 
 # User Loader for Flask-Login
 @login_manager.user_loader
@@ -105,9 +105,24 @@ def signup():
 def dashboard():
     return render_template('dashboard.html')
 
-# Create the database tables
-with app.app_context():
-    db.create_all()
+# Retry database connection
+def create_db_connection():
+    retries = 5
+    delay = 5  # seconds
+    for i in range(retries):
+        try:
+            with app.app_context():  # Ensure this runs within the application context
+                db.create_all()
+                print("Database connection successful!")
+                break
+        except OperationalError as e:
+            if i == retries - 1:
+                raise e
+            print(f"Database connection failed. Retrying in {delay} seconds...")
+            time.sleep(delay)
+
+# Call the function to create the database connection
+create_db_connection()
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
