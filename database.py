@@ -12,7 +12,7 @@ DB_HOST = os.getenv("PG_HOST")
 DB_PORT = os.getenv("PG_PORT")
 DB_NAME = "postgres"  # Default database
 
-# Connect to PostgreSQL
+
 conn = psycopg2.connect(
     dbname=DB_NAME,
     user=DB_USER,

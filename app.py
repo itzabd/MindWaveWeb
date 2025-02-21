@@ -5,6 +5,7 @@ from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 
+
 # Initialize the Flask app
 app = Flask(__name__)
 
@@ -39,6 +40,7 @@ class User(db.Model, UserMixin):
     # Method to check the password
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
 
 # User Loader for Flask-Login
 @login_manager.user_loader
