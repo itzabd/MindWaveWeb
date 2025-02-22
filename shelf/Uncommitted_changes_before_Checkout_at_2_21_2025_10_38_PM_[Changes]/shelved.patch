@@ -1,0 +1,265 @@
+Index: requirements.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>attrs==25.1.0\r\nblinker==1.9.0\r\ncertifi==2025.1.31\r\ncffi==1.17.1\r\nclick==8.1.8\r\ncolorama==0.4.6\r\nFlask==3.1.0\r\nFlask-Login==0.6.3\r\nFlask-SQLAlchemy==3.1.1\r\ngreenlet==3.1.1\r\nh11==0.14.0\r\nidna==3.10\r\nitsdangerous==2.2.0\r\nJinja2==3.1.5\r\nMarkupSafe==3.0.2\r\nnumpy==2.2.2\r\nobs-websocket-py==1.0\r\noutcome==1.3.0.post0\r\npsycopg2==2.9.10\r\npycparser==2.22\r\nPySocks==1.7.1\r\npython-dotenv==1.0.1\r\nselenium==4.28.1\r\nsniffio==1.3.1\r\nsortedcontainers==2.4.0\r\nSQLAlchemy==2.0.38\r\ntrio==0.28.0\r\ntrio-websocket==0.11.1\r\ntyping_extensions==4.12.2\r\nurllib3==2.3.0\r\nwebsocket-client==1.8.0\r\nWerkzeug==3.1.3\r\nwsproto==1.2.0\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-16LE
+===================================================================
+diff --git a/requirements.txt b/requirements.txt
+--- a/requirements.txt	(revision 8b73666d641b543838e2d9dcba471bad476ceef6)
++++ b/requirements.txt	(date 1740113910465)
+@@ -31,3 +31,6 @@
+ websocket-client==1.8.0
+ Werkzeug==3.1.3
+ wsproto==1.2.0
++Flask==2.3.2
++psycopg2-binary~=2.9.10
++supabase~=2.13.0
+\ No newline at end of file
+Index: database.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import psycopg2\r\nfrom dotenv import load_dotenv\r\nimport os\r\n\r\n# Load environment variables from .env file\r\nload_dotenv()\r\n\r\n# Get database credentials from environment variables\r\nDB_USER = os.getenv(\"PG_USER\")\r\nDB_PASS = os.getenv(\"PG_PASS\")\r\nDB_HOST = os.getenv(\"PG_HOST\")\r\nDB_PORT = os.getenv(\"PG_PORT\")\r\nDB_NAME = \"postgres\"  # Default database\r\n\r\n# Connect to PostgreSQL\r\nconn = psycopg2.connect(\r\n    dbname=DB_NAME,\r\n    user=DB_USER,\r\n    password=DB_PASS,\r\n    host=DB_HOST,\r\n    port=DB_PORT\r\n)\r\nconn.autocommit = True\r\n\r\ncursor = conn.cursor()\r\n\r\n# Create a new database\r\ncursor.execute(\"CREATE DATABASE flaskapp_db\")\r\n\r\nprint(\"Database created successfully!\")\r\n\r\ncursor.close()\r\nconn.close()\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/database.py b/database.py
+--- a/database.py	(revision 8b73666d641b543838e2d9dcba471bad476ceef6)
++++ b/database.py	(date 1740114245220)
+@@ -1,33 +1,9 @@
+ import psycopg2
+-from dotenv import load_dotenv
+-import os
+-
+-# Load environment variables from .env file
+-load_dotenv()
+ 
+-# Get database credentials from environment variables
+-DB_USER = os.getenv("PG_USER")
+-DB_PASS = os.getenv("PG_PASS")
+-DB_HOST = os.getenv("PG_HOST")
+-DB_PORT = os.getenv("PG_PORT")
+-DB_NAME = "postgres"  # Default database
++from supabase import create_client, Client
+ 
+-# Connect to PostgreSQL
+-conn = psycopg2.connect(
+-    dbname=DB_NAME,
+-    user=DB_USER,
+-    password=DB_PASS,
+-    host=DB_HOST,
+-    port=DB_PORT
+-)
+-conn.autocommit = True
+ 
+-cursor = conn.cursor()
++SUPABASE_URL = "https://okhrguykcmeaakxclkbl.supabase.co"  # Replace with your Supabase project URL
++SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9raHJndXlrY21lYWFreGNsa2JsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAwNTM0NzMsImV4cCI6MjA1NTYyOTQ3M30.XytMV4yJ5GMmhD_53E4rAByqBSY8GcqD1C0B3IWBjh8"  # Replace with your Supabase public API key
++supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+ 
+-# Create a new database
+-cursor.execute("CREATE DATABASE flaskapp_db")
+-
+-print("Database created successfully!")
+-
+-cursor.close()
+-conn.close()
+Index: app.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from flask import Flask, render_template, request, redirect, url_for, flash\r\nfrom flask_sqlalchemy import SQLAlchemy\r\nfrom flask_login import LoginManager, login_user, login_required, logout_user, current_user\r\nfrom flask_login import UserMixin\r\nfrom werkzeug.security import generate_password_hash, check_password_hash\r\nfrom datetime import datetime\r\n\r\n# Initialize the Flask app\r\napp = Flask(__name__)\r\n\r\n# Database configuration\r\napp.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:mnbvcxz@localhost/flaskapp_db'\r\napp.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False\r\napp.secret_key = 'your_secret_key'  # Required for session management (for Flask-Login)\r\n\r\n# Initialize the database\r\ndb = SQLAlchemy(app)\r\n\r\n# Initialize Flask-Login\r\nlogin_manager = LoginManager()\r\nlogin_manager.init_app(app)\r\nlogin_manager.login_view = 'login'\r\n\r\n# User Table (with authentication)\r\nclass User(db.Model, UserMixin):\r\n    id = db.Column(db.Integer, primary_key=True)\r\n    name = db.Column(db.String(50), nullable=False)\r\n    email = db.Column(db.String(120), unique=True, nullable=False)\r\n    password_hash = db.Column(db.String(255), nullable=False)\r\n    role = db.Column(db.String(50), nullable=False, default='user')  # 'user' or 'admin'\r\n\r\n    def __repr__(self):\r\n        return f'<User {self.name}>'\r\n\r\n    # Method to set the password (hashing it)\r\n    def set_password(self, password):\r\n        self.password_hash = generate_password_hash(password)\r\n\r\n    # Method to check the password\r\n    def check_password(self, password):\r\n        return check_password_hash(self.password_hash, password)\r\n\r\n# User Loader for Flask-Login\r\n@login_manager.user_loader\r\ndef load_user(user_id):\r\n    return User.query.get(int(user_id))\r\n\r\n# Routes\r\n\r\n# Home route\r\n@app.route('/')\r\ndef home():\r\n    return render_template('index.html', title=\"Home Page\")\r\n\r\n# Login Route\r\n@app.route('/login', methods=['GET', 'POST'])\r\ndef login():\r\n    if request.method == 'POST':\r\n        email = request.form['email']\r\n        password = request.form['password']\r\n\r\n        # Find the user by email\r\n        user = User.query.filter_by(email=email).first()\r\n\r\n        if user and user.check_password(password):\r\n            login_user(user)  # Log the user in using Flask-Login\r\n            return redirect(url_for('dashboard'))  # Redirect to dashboard on successful login\r\n        else:\r\n            flash('Invalid email or password!', 'danger')  # Show error message if login fails\r\n\r\n    return render_template('login.html')\r\n\r\n# Logout Route\r\n@app.route('/logout')\r\ndef logout():\r\n    logout_user()\r\n    return redirect(url_for('home'))  # Redirect to home page after logout\r\n\r\n# Signup Route\r\n@app.route('/signup', methods=['GET', 'POST'])\r\ndef signup():\r\n    if request.method == 'POST':\r\n        name = request.form['name']\r\n        email = request.form['email']\r\n        password = request.form['password']\r\n\r\n        if User.query.filter_by(email=email).first():\r\n            flash('Email already exists.', 'danger')  # Show error if email already exists\r\n            return redirect(url_for('signup'))\r\n\r\n        new_user = User(name=name, email=email)\r\n        new_user.set_password(password)  # Hash the password\r\n        db.session.add(new_user)\r\n        db.session.commit()\r\n        flash('Account created successfully! Please log in.', 'success')\r\n        return redirect(url_for('login'))  # Redirect to login page after successful signup\r\n\r\n    return render_template('signup.html')\r\n\r\n# Protected Route (example: Dashboard)\r\n@app.route('/dashboard')\r\n@login_required\r\ndef dashboard():\r\n    return render_template('dashboard.html')\r\n\r\n# Create the database tables\r\nwith app.app_context():\r\n    db.create_all()\r\n\r\nif __name__ == '__main__':\r\n    app.run(debug=True)\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app.py b/app.py
+--- a/app.py	(revision 8b73666d641b543838e2d9dcba471bad476ceef6)
++++ b/app.py	(date 1740153871635)
+@@ -1,40 +1,31 @@
+ from flask import Flask, render_template, request, redirect, url_for, flash
+-from flask_sqlalchemy import SQLAlchemy
+ from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+ from flask_login import UserMixin
+ from werkzeug.security import generate_password_hash, check_password_hash
+-from datetime import datetime
++from supabase import create_client, Client
+ 
+ # Initialize the Flask app
+ app = Flask(__name__)
++app.secret_key = 'your_secret_key'  # Required for Flask-Login and flash messages
+ 
+-# Database configuration
+-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:mnbvcxz@localhost/flaskapp_db'
+-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+-app.secret_key = 'your_secret_key'  # Required for session management (for Flask-Login)
+-
+-# Initialize the database
+-db = SQLAlchemy(app)
++# Supabase configuration
++SUPABASE_URL = "https://okhrguykcmeaakxclkbl.supabase.co"  # Replace with your Supabase project URL
++SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9raHJndXlrY21lYWFreGNsa2JsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAwNTM0NzMsImV4cCI6MjA1NTYyOTQ3M30.XytMV4yJ5GMmhD_53E4rAByqBSY8GcqD1C0B3IWBjh8"  # Replace with your Supabase public API key
++supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+ 
+ # Initialize Flask-Login
+ login_manager = LoginManager()
+ login_manager.init_app(app)
+ login_manager.login_view = 'login'
+ 
+-# User Table (with authentication)
+-class User(db.Model, UserMixin):
+-    id = db.Column(db.Integer, primary_key=True)
+-    name = db.Column(db.String(50), nullable=False)
+-    email = db.Column(db.String(120), unique=True, nullable=False)
+-    password_hash = db.Column(db.String(255), nullable=False)
+-    role = db.Column(db.String(50), nullable=False, default='user')  # 'user' or 'admin'
+-
+-    def __repr__(self):
+-        return f'<User {self.name}>'
+-
+-    # Method to set the password (hashing it)
+-    def set_password(self, password):
+-        self.password_hash = generate_password_hash(password)
++# User Class (for Flask-Login)
++class User(UserMixin):
++    def __init__(self, id, name, email, password_hash, role='user'):
++        self.id = id
++        self.name = name
++        self.email = email
++        self.password_hash = password_hash
++        self.role = role
+ 
+     # Method to check the password
+     def check_password(self, password):
+@@ -43,7 +34,18 @@
+ # User Loader for Flask-Login
+ @login_manager.user_loader
+ def load_user(user_id):
+-    return User.query.get(int(user_id))
++    # Fetch the user from Supabase
++    response = supabase.table("User").select("*").eq("id", user_id).execute()
++    if response.data:
++        user_data = response.data[0]
++        return User(
++            id=user_data['id'],
++            name=user_data['name'],
++            email=user_data['email'],
++            password_hash=user_data['password_hash'],
++            role=user_data.get('role', 'user')
++        )
++    return None
+ 
+ # Routes
+ 
+@@ -59,14 +61,25 @@
+         email = request.form['email']
+         password = request.form['password']
+ 
+-        # Find the user by email
+-        user = User.query.filter_by(email=email).first()
++        # Find the user by email in Supabase
++        response = supabase.table("User").select("*").eq("email", email).execute()
++        if response.data:
++            user_data = response.data[0]
++            user = User(
++                id=user_data['id'],
++                name=user_data['name'],
++                email=user_data['email'],
++                password_hash=user_data['password_hash'],
++                role=user_data.get('role', 'user')
++            )
+ 
+-        if user and user.check_password(password):
+-            login_user(user)  # Log the user in using Flask-Login
+-            return redirect(url_for('dashboard'))  # Redirect to dashboard on successful login
+-        else:
+-            flash('Invalid email or password!', 'danger')  # Show error message if login fails
++            if user.check_password(password):
++                login_user(user)  # Log the user in using Flask-Login
++                return redirect(url_for('dashboard'))  # Redirect to dashboard on successful login
++            else:
++                flash('Invalid email or password!', 'danger')  # Show error message if login fails
++        else:
++            flash('User not found!', 'danger')
+ 
+     return render_template('login.html')
+ 
+@@ -84,14 +97,24 @@
+         email = request.form['email']
+         password = request.form['password']
+ 
+-        if User.query.filter_by(email=email).first():
++        # Check if the email already exists in Supabase
++        response = supabase.table("User").select("*").eq("email", email).execute()
++        if response.data:
+             flash('Email already exists.', 'danger')  # Show error if email already exists
+             return redirect(url_for('signup'))
+ 
+-        new_user = User(name=name, email=email)
+-        new_user.set_password(password)  # Hash the password
+-        db.session.add(new_user)
+-        db.session.commit()
++        # Hash the password
++        password_hash = generate_password_hash(password)
++
++        # Insert the new user into Supabase
++        new_user = {
++            "name": name,
++            "email": email,
++            "password_hash": password_hash,
++            "role": "user"
++        }
++        supabase.table("User").insert(new_user).execute()
++
+         flash('Account created successfully! Please log in.', 'success')
+         return redirect(url_for('login'))  # Redirect to login page after successful signup
+ 
+@@ -103,9 +126,6 @@
+ def dashboard():
+     return render_template('dashboard.html')
+ 
+-# Create the database tables
+-with app.app_context():
+-    db.create_all()
+-
++# Run the Flask app
+ if __name__ == '__main__':
+-    app.run(debug=True)
++    app.run(debug=True)
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"Black\">\r\n    <option name=\"sdkName\" value=\"Python 3.13 (MindWaveWeb)\" />\r\n  </component>\r\n  <component name=\"ProjectRootManager\" version=\"2\" project-jdk-name=\"Python 3.11 (MindWaveWeb)\" project-jdk-type=\"Python SDK\" />\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 8b73666d641b543838e2d9dcba471bad476ceef6)
++++ b/.idea/misc.xml	(date 1740008471831)
+@@ -3,5 +3,5 @@
+   <component name="Black">
+     <option name="sdkName" value="Python 3.13 (MindWaveWeb)" />
+   </component>
+-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.11 (MindWaveWeb)" project-jdk-type="Python SDK" />
++  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.11 virtualenv at D:\git\waLLMgr1\.venv" project-jdk-type="Python SDK" />
+ </project>
+\ No newline at end of file
+Index: .idea/MindWaveWeb.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<module type=\"PYTHON_MODULE\" version=\"4\">\r\n  <component name=\"NewModuleRootManager\">\r\n    <content url=\"file://$MODULE_DIR$\">\r\n      <excludeFolder url=\"file://$MODULE_DIR$/.venv\" />\r\n    </content>\r\n    <orderEntry type=\"jdk\" jdkName=\"Python 3.11 (MindWaveWeb)\" jdkType=\"Python SDK\" />\r\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\r\n  </component>\r\n</module>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/MindWaveWeb.iml b/.idea/MindWaveWeb.iml
+--- a/.idea/MindWaveWeb.iml	(revision 8b73666d641b543838e2d9dcba471bad476ceef6)
++++ b/.idea/MindWaveWeb.iml	(date 1740008476129)
+@@ -4,7 +4,7 @@
+     <content url="file://$MODULE_DIR$">
+       <excludeFolder url="file://$MODULE_DIR$/.venv" />
+     </content>
+-    <orderEntry type="jdk" jdkName="Python 3.11 (MindWaveWeb)" jdkType="Python SDK" />
++    <orderEntry type="jdk" jdkName="Python 3.11 virtualenv at D:\git\waLLMgr1\.venv" jdkType="Python SDK" />
+     <orderEntry type="sourceFolder" forTests="false" />
+   </component>
+ </module>
+\ No newline at end of file

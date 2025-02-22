@@ -1,60 +1,85 @@
+import os
+from supabase import create_client, Client
+from dotenv import load_dotenv
 from flask import Flask, render_template, request, redirect, url_for, flash
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, login_user, login_required, logout_user, current_user
-from flask_login import UserMixin
+from flask_login import LoginManager, login_user, login_required, logout_user, UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import datetime
-import time
-from sqlalchemy.exc import OperationalError
 
+# Load environment variables
+load_dotenv()
 
-# Initialize the Flask app
+# Initialize Flask app
 app = Flask(__name__)
 
-# Database configuration
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:4297@db/flaskapp_db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.secret_key = 'your_secret_key'  # Required for session management (for Flask-Login)
+# Set secret key from environment variables
 
-# Initialize the database
-db = SQLAlchemy(app)
+app.secret_key = os.getenv("SECRET_KEY", "fallback_secret_key")
+
+# Initialize Supabase client
+SUPABASE_URL = "https://okhrguykcmeaakxclkbl.supabase.co"
+SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9raHJndXlrY21lYWFreGNsa2JsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAwNTM0NzMsImV4cCI6MjA1NTYyOTQ3M30.XytMV4yJ5GMmhD_53E4rAByqBSY8GcqD1C0B3IWBjh8"
+
+
+if not SUPABASE_URL or not SUPABASE_KEY:
+    raise ValueError("Missing Supabase credentials! Check your .env file.")
+
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 # Initialize Flask-Login
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-# User Table (with authentication)
-class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    password_hash = db.Column(db.String(255), nullable=False)
-    role = db.Column(db.String(50), nullable=False, default='user')  # 'user' or 'admin'
+# User Class for Flask-Login
+class User(UserMixin):
+    def __init__(self, id, name, email, password_hash, role="user"):
+        self.id = id
+        self.name = name
+        self.email = email
+        self.password_hash = password_hash
+        self.role = role
 
     def __repr__(self):
-        return f'<User {self.name}>'
+        return f"<User {self.name}>"
 
-    # Method to set the password (hashing it)
-    def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
-
-    # Method to check the password
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
 
-# User Loader for Flask-Login
+    @staticmethod
+    def get_by_email(email):
+        try:
+            # Execute the Supabase query
+            response = supabase.table("users").select("*").eq("email", email).execute()
+
+            # Check if the response was successful and contains data
+            if response and response.data:
+                user_data = response.data[0]
+                return User(**user_data)  # Create User instance from the first matched record
+
+        except Exception as e:
+            # Log an error for debugging purposes
+            print(f"Error fetching user by email '{email}': {e}")
+
+        # Return None if the user does not exist or an error occurred
+        return None
+
+    @staticmethod
+    def get_by_id(user_id):
+        response = supabase.table("users").select("*").eq("id", user_id).execute()
+        if response.data:
+            user_data = response.data[0]
+            return User(**user_data)
+        return None
+
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
-
-# Routes
+    return User.get_by_id(user_id)
 
 # Home route
 @app.route('/')
 def home():
-    return render_template('index.html', title="Home Page")
+    return render_template('index.html')
 
 # Login Route
 @app.route('/login', methods=['GET', 'POST'])
@@ -63,22 +88,22 @@ def login():
         email = request.form['email']
         password = request.form['password']
 
-        # Find the user by email
-        user = User.query.filter_by(email=email).first()
+        user = User.get_by_email(email)
 
         if user and user.check_password(password):
-            login_user(user)  # Log the user in using Flask-Login
-            return redirect(url_for('dashboard'))  # Redirect to dashboard on successful login
+            login_user(user)
+            return redirect(url_for('dashboard'))
         else:
-            flash('Invalid email or password!', 'danger')  # Show error message if login fails
+            flash('Invalid email or password!', 'danger')
 
     return render_template('login.html')
 
 # Logout Route
 @app.route('/logout')
+@login_required
 def logout():
     logout_user()
-    return redirect(url_for('home'))  # Redirect to home page after logout
+    return redirect(url_for('home'))
 
 # Signup Route
 @app.route('/signup', methods=['GET', 'POST'])
@@ -88,43 +113,42 @@ def signup():
         email = request.form['email']
         password = request.form['password']
 
-        if User.query.filter_by(email=email).first():
-            flash('Email already exists.', 'danger')  # Show error if email already exists
+        print(f"Received signup data: {name}, {email}")
+
+        # Check if email exists
+        response = supabase.table('users').select('email').eq('email', email).execute()
+        if response.data:
+            flash('Email already exists.', 'danger')
             return redirect(url_for('signup'))
 
-        new_user = User(name=name, email=email)
-        new_user.set_password(password)  # Hash the password
-        db.session.add(new_user)
-        db.session.commit()
-        flash('Account created successfully! Please log in.', 'success')
-        return redirect(url_for('login'))  # Redirect to login page after successful signup
+        # Hash the password
+        password_hash = generate_password_hash(password)
+
+        # Insert user
+        try:
+            response = supabase.table('users').insert({
+                'name': name,
+                'email': email,
+                'password_hash': password_hash,
+                'role': 'user'
+            }).execute()
+
+            if response.data:
+                flash('Account created successfully! Please log in.', 'success')
+                return redirect(url_for('login'))
+            else:
+                flash('Failed to create an account. Try again.', 'danger')
+
+        except Exception as e:
+            flash(f"Error: {str(e)}", 'danger')
 
     return render_template('signup.html')
 
-# Protected Route (example: Dashboard)
+# Protected Route (Dashboard)
 @app.route('/dashboard')
 @login_required
 def dashboard():
     return render_template('dashboard.html')
-
-# Retry database connection
-def create_db_connection():
-    retries = 5
-    delay = 5  # seconds
-    for i in range(retries):
-        try:
-            with app.app_context():  # Ensure this runs within the application context
-                db.create_all()
-                print("Database connection successful!")
-                break
-        except OperationalError as e:
-            if i == retries - 1:
-                raise e
-            print(f"Database connection failed. Retrying in {delay} seconds...")
-            time.sleep(delay)
-
-# Call the function to create the database connection
-create_db_connection()
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

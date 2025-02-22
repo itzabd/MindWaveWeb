@@ -1,0 +1,57 @@
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"Black\">\r\n    <option name=\"sdkName\" value=\"Python 3.13 (MindWaveWeb)\" />\r\n  </component>\r\n  <component name=\"ProjectRootManager\" version=\"2\" project-jdk-name=\"Python 3.13 (MindWaveWeb)\" project-jdk-type=\"Python SDK\" />\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 043eaf974c225b17ffa8d401ee2416dbfc08edc0)
++++ b/.idea/misc.xml	(date 1740007407523)
+@@ -3,5 +3,5 @@
+   <component name="Black">
+     <option name="sdkName" value="Python 3.13 (MindWaveWeb)" />
+   </component>
+-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.13 (MindWaveWeb)" project-jdk-type="Python SDK" />
++  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.11 virtualenv at D:\git\waLLMgr1\.venv" project-jdk-type="Python SDK" />
+ </project>
+\ No newline at end of file
+Index: .idea/MindWaveWeb.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<module type=\"PYTHON_MODULE\" version=\"4\">\r\n  <component name=\"NewModuleRootManager\">\r\n    <content url=\"file://$MODULE_DIR$\">\r\n      <excludeFolder url=\"file://$MODULE_DIR$/.venv\" />\r\n    </content>\r\n    <orderEntry type=\"jdk\" jdkName=\"Python 3.13 (MindWaveWeb)\" jdkType=\"Python SDK\" />\r\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\r\n  </component>\r\n</module>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/MindWaveWeb.iml b/.idea/MindWaveWeb.iml
+--- a/.idea/MindWaveWeb.iml	(revision 043eaf974c225b17ffa8d401ee2416dbfc08edc0)
++++ b/.idea/MindWaveWeb.iml	(date 1740007407414)
+@@ -4,7 +4,7 @@
+     <content url="file://$MODULE_DIR$">
+       <excludeFolder url="file://$MODULE_DIR$/.venv" />
+     </content>
+-    <orderEntry type="jdk" jdkName="Python 3.13 (MindWaveWeb)" jdkType="Python SDK" />
++    <orderEntry type="jdk" jdkName="Python 3.11 virtualenv at D:\git\waLLMgr1\.venv" jdkType="Python SDK" />
+     <orderEntry type="sourceFolder" forTests="false" />
+   </component>
+ </module>
+\ No newline at end of file
+Index: app.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from flask import Flask, render_template, request, redirect, url_for, flash\r\nfrom flask_sqlalchemy import SQLAlchemy\r\nfrom flask_login import LoginManager, login_user, login_required, logout_user, current_user\r\nfrom flask_login import UserMixin\r\nfrom werkzeug.security import generate_password_hash, check_password_hash\r\nfrom datetime import datetime\r\n\r\n# Initialize the Flask app\r\napp = Flask(__name__)\r\n\r\n# Database configuration\r\napp.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:4297@localhost/flaskapp_db'\r\napp.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False\r\napp.secret_key = 'your_secret_key'  # Required for session management (for Flask-Login)\r\n\r\n# Initialize the database\r\ndb = SQLAlchemy(app)\r\n\r\n# Initialize Flask-Login\r\nlogin_manager = LoginManager()\r\nlogin_manager.init_app(app)\r\nlogin_manager.login_view = 'login'\r\n\r\n# User Table (with authentication)\r\nclass User(db.Model, UserMixin):\r\n    id = db.Column(db.Integer, primary_key=True)\r\n    name = db.Column(db.String(50), nullable=False)\r\n    email = db.Column(db.String(120), unique=True, nullable=False)\r\n    password_hash = db.Column(db.String(255), nullable=False)\r\n    role = db.Column(db.String(50), nullable=False, default='user')  # 'user' or 'admin'\r\n\r\n    def __repr__(self):\r\n        return f'<User {self.name}>'\r\n\r\n    # Method to set the password (hashing it)\r\n    def set_password(self, password):\r\n        self.password_hash = generate_password_hash(password)\r\n\r\n    # Method to check the password\r\n    def check_password(self, password):\r\n        return check_password_hash(self.password_hash, password)\r\n\r\n# User Loader for Flask-Login\r\n@login_manager.user_loader\r\ndef load_user(user_id):\r\n    return User.query.get(int(user_id))\r\n\r\n# Routes\r\n\r\n# Home route\r\n@app.route('/')\r\ndef home():\r\n    return render_template('index.html', title=\"Home Page\")\r\n\r\n# Login Route\r\n@app.route('/login', methods=['GET', 'POST'])\r\ndef login():\r\n    if request.method == 'POST':\r\n        email = request.form['email']\r\n        password = request.form['password']\r\n\r\n        # Find the user by email\r\n        user = User.query.filter_by(email=email).first()\r\n\r\n        if user and user.check_password(password):\r\n            login_user(user)  # Log the user in using Flask-Login\r\n            return redirect(url_for('dashboard'))  # Redirect to dashboard on successful login\r\n        else:\r\n            flash('Invalid email or password!', 'danger')  # Show error message if login fails\r\n\r\n    return render_template('login.html')\r\n\r\n# Logout Route\r\n@app.route('/logout')\r\ndef logout():\r\n    logout_user()\r\n    return redirect(url_for('home'))  # Redirect to home page after logout\r\n\r\n# Signup Route\r\n@app.route('/signup', methods=['GET', 'POST'])\r\ndef signup():\r\n    if request.method == 'POST':\r\n        name = request.form['name']\r\n        email = request.form['email']\r\n        password = request.form['password']\r\n\r\n        if User.query.filter_by(email=email).first():\r\n            flash('Email already exists.', 'danger')  # Show error if email already exists\r\n            return redirect(url_for('signup'))\r\n\r\n        new_user = User(name=name, email=email)\r\n        new_user.set_password(password)  # Hash the password\r\n        db.session.add(new_user)\r\n        db.session.commit()\r\n        flash('Account created successfully! Please log in.', 'success')\r\n        return redirect(url_for('login'))  # Redirect to login page after successful signup\r\n\r\n    return render_template('signup.html')\r\n\r\n# Protected Route (example: Dashboard)\r\n@app.route('/dashboard')\r\n@login_required\r\ndef dashboard():\r\n    return render_template('dashboard.html')\r\n\r\n# Create the database tables\r\nwith app.app_context():\r\n    db.create_all()\r\n\r\nif __name__ == '__main__':\r\n    app.run(debug=True)\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app.py b/app.py
+--- a/app.py	(revision 043eaf974c225b17ffa8d401ee2416dbfc08edc0)
++++ b/app.py	(date 1740007540352)
+@@ -9,7 +9,7 @@
+ app = Flask(__name__)
+ 
+ # Database configuration
+-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:4297@localhost/flaskapp_db'
++app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:12345@localhost/flaskapp_db'
+ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+ app.secret_key = 'your_secret_key'  # Required for session management (for Flask-Login)
+ 
