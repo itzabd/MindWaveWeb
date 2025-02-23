@@ -1,22 +1,6 @@
 version: '3.8'
 
 services:
-  db:
-    image: postgres:13
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 4297
-      POSTGRES_DB: flaskapp_db
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d flaskapp_db"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-
   web:
     build: .
     ports:
@@ -24,10 +8,8 @@ services:
     environment:
       FLASK_APP: app.py
       FLASK_ENV: development
-      SQLALCHEMY_DATABASE_URI: postgresql://postgres:4297@db/flaskapp_db
-    depends_on:
-      db:
-        condition: service_healthy
-
-volumes:
-  postgres_data:
+      SECRET_KEY: "your_super_secret_key"
+      SUPABASE_URL: "https://okhrguykcmeaakxclkbl.supabase.co"
+      SUPABASE_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9raHJndXlrY21lYWFreGNsa2JsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAwNTM0NzMsImV4cCI6MjA1NTYyOTQ3M30.XytMV4yJ5GMmhD_53E4rAByqBSY8GcqD1C0B3IWBjh8"
+    volumes:
+      - .:/app
