@@ -9,13 +9,15 @@
 <body>
     <h2>Welcome to your Dashboard</h2>
     <p>Hello, {{ current_user.name }}!</p>
+{% if not user.email_verified %}
+    <form action="{{ url_for('resend_verification') }}" method="post">
+        <input type="hidden" name="email" value="{{ user.email }}">
+        <button type="submit" class="btn btn-warning">Resend Verification Email</button>
+    </form>
+{% else %}
+    <p>Email Verified ✅</p>
+{% endif %}
 
-    {% if not current_user.is_verified %}
-        <p style="color: red;">Your email is not verified. Please verify to access all features.</p>
-        <form action="{{ url_for('verify_email') }}" method="POST">
-            <button type="submit">Verify Email</button>
-        </form>
-    {% endif %}
 
     <br>
     <a href="{{ url_for('logout') }}">Logout</a>

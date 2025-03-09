@@ -59,13 +59,13 @@ class User(UserMixin):
                 # Filter out the 'password' field (if it exists)
                 filtered_data = {
                     "id": user_data["id"],
-                    "username": user_data["username"],  # Missing in your original code
+                    "username": user_data["username"],  # Ensure this field exists
                     "name": user_data["name"],
                     "email": user_data["email"],
                     "password_hash": user_data["password_hash"],
+                    "email_verified": user_data.get("email_verified", False),
                     "role": user_data.get("role", "user")
                 }
-
                 return User(**filtered_data)  # Create User instance from filtered data
 
         except Exception as e:
@@ -83,10 +83,12 @@ class User(UserMixin):
             # Filter out the 'password' field (if it exists)
             filtered_data = {
                 "id": user_data["id"],
+                "username": user_data["username"],  # Ensure this field exists
                 "name": user_data["name"],
                 "email": user_data["email"],
                 "password_hash": user_data["password_hash"],
-                "role": user_data.get("role", "user")  # Default role is 'user'
+                "email_verified": user_data.get("email_verified", False),
+                "role": user_data.get("role", "user")
             }
             return User(**filtered_data)
         return None
@@ -110,11 +112,13 @@ def login():
 
         # Fetch user from Supabase
         user = User.get_by_email(email)
+        print(f"User fetched: {user}")  # Debugging log
 
         if user and user.check_password(password):
-            login_user(user)
+            login_user(user)  # Log the user in
+            print(f"User logged in: {current_user}")  # Debugging log
             flash('Logged in successfully!', 'success')
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('dashboard'))  # Redirect to the dashboard
         else:
             flash('Invalid email or password!', 'danger')
 
@@ -170,6 +174,7 @@ def signup():
                 flash('Account created successfully! Please check your email to verify your account.', 'success')
 
                 # ✅ Generate email verification token
+                # ✅ Generate email verification token
                 token = generate_verification_token(email)
                 verification_url = url_for('verify_email', token=token, _external=True)
 
@@ -197,22 +202,14 @@ def signup():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    # Fetch user details from the database (if needed)
-    if current_user.is_authenticated:
-        user_id = current_user.id
-        # Fetch additional user data from Supabase if necessary
-        response = supabase.table('users').select('*').eq('id', user_id).execute()
-        user_data = response.data[0] if response.data else None
-
-        if user_data:
-            # Pass user data to the template
-            return render_template('dashboard.html', user=user_data)
-        else:
-            flash('User data not found.', 'danger')
-            return redirect(url_for('login'))
+    # Refresh user data from the database
+    user = User.get_by_id(current_user.id)  # Fetch the latest user data
+    if user:
+        return render_template('dashboard.html', user=user)  # Pass updated user
     else:
-        flash('You need to log in to access the dashboard.', 'danger')
+        flash('User data not found.', 'danger')
         return redirect(url_for('login'))
+
 
 
 #==========Gen and verify token======================
@@ -230,13 +227,61 @@ def verify_token(token, expiration=3600):
 #===================email verification========================
 @app.route('/verify_email/<token>')
 def verify_email(token):
-    email = verify_token(token)
-    if email:
-        # Mark the user's email as verified
-        supabase.table('users').update({'email_verified': True}).eq('email', email).execute()
-        flash('Email verified successfully! You can now log in.', 'success')
-    else:
+    email = verify_token(token)  # Decode the token
+    if not email:
         flash('Invalid or expired token.', 'danger')
+        return redirect(url_for('login'))
+
+    # Check if email is already verified
+    response = supabase.table('users').select('email_verified').eq('email', email).execute()
+    if response.data and response.data[0]['email_verified']:
+        flash('Email is already verified. You can log in.', 'info')
+        return redirect(url_for('login'))
+
+    # ✅ Update email_verified in Supabase
+    update_response = supabase.table('users').update({'email_verified': True}).eq('email', email).execute()
+
+    print(f"Email verification update response: {update_response}")  # Debugging log
+
+    # ✅ Fetch updated user data
+    user = User.get_by_email(email)
+    if user:
+        login_user(user, remember=True)  # 🔹 Refresh session properly
+        flash('Email verified successfully! You can now log in.', 'success')
+        return redirect(url_for('dashboard'))
+
+    flash('Verification successful, but there was an issue loading your profile.', 'warning')
     return redirect(url_for('login'))
+
+
+#resend verification
+@app.route('/resend_verification', methods=['POST'])
+def resend_verification():
+    email = request.form['email']
+
+    # ✅ Fetch latest user data to ensure email verification status is correct
+    user = User.get_by_email(email)
+    if user and user.email_verified:
+        flash('Your email is already verified. You can log in.', 'info')
+        return redirect(url_for('login'))
+
+    if user:
+        # Generate a new token and send verification email
+        token = generate_verification_token(email)
+        verification_url = url_for('verify_email', token=token, _external=True)
+        try:
+            msg = Message("Verify Your Email", sender="demomindwaveweb@gmail.com", recipients=[email])
+            msg.body = f"Click the link to verify your email: {verification_url}"
+            mail.send(msg)
+            flash('A new verification email has been sent!', 'success')
+        except Exception as e:
+            flash(f"Failed to send email: {str(e)}", 'danger')
+    else:
+        flash("No account found with this email.", "danger")
+
+    return redirect(url_for('login'))
+
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
