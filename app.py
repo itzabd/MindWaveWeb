@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_login import LoginManager, login_user, login_required, logout_user, UserMixin, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from itsdangerous import URLSafeTimedSerializer
+from flask_mail import Mail, Message
 
 # Load environment variables
 load_dotenv()
@@ -30,11 +32,13 @@ login_manager.login_view = 'login'
 
 # User Class for Flask-Login
 class User(UserMixin):
-    def __init__(self, id, name, email, password_hash, role="user"):
+    def __init__(self, id, username, name, email, password_hash, email_verified=False, role="user"):
         self.id = id
+        self.username = username
         self.name = name
         self.email = email
         self.password_hash = password_hash
+        self.email_verified = email_verified
         self.role = role
 
     def __repr__(self):
@@ -55,11 +59,13 @@ class User(UserMixin):
                 # Filter out the 'password' field (if it exists)
                 filtered_data = {
                     "id": user_data["id"],
+                    "username": user_data["username"],  # Missing in your original code
                     "name": user_data["name"],
                     "email": user_data["email"],
                     "password_hash": user_data["password_hash"],
-                    "role": user_data.get("role", "user")  # Default role is 'user'
+                    "role": user_data.get("role", "user")
                 }
+
                 return User(**filtered_data)  # Create User instance from filtered data
 
         except Exception as e:
@@ -123,43 +129,69 @@ def logout():
     return redirect(url_for('home'))
 
 # Signup Route
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'demomindwaveweb@gmail.com'
+app.config['MAIL_PASSWORD'] = 'yybj bhrv tymx abii'
+mail = Mail(app)
+from flask_mail import Message
+
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
+        username = request.form['username']
         name = request.form['name']
         email = request.form['email']
         password = request.form['password']
 
-        print(f"Received signup data: {name}, {email}")
-
-        # Check if email exists
-        response = supabase.table('users').select('email').eq('email', email).execute()
+        # Check if email or username already exists
+        response = supabase.table('users').select('email, username').or_(f'email.eq.{email},username.eq.{username}').execute()
         if response.data:
-            flash('Email already exists.', 'danger')
+            flash('Email or username already exists.', 'danger')
             return redirect(url_for('signup'))
 
         # Hash the password
         password_hash = generate_password_hash(password)
 
-        # Insert user
+        # Insert user into the database
         try:
             response = supabase.table('users').insert({
+                'username': username,
                 'name': name,
                 'email': email,
                 'password_hash': password_hash,
+                'email_verified': False,
                 'role': 'user'
             }).execute()
 
             if response.data:
-                flash('Account created successfully! Please log in.', 'success')
+                flash('Account created successfully! Please check your email to verify your account.', 'success')
+
+                # ✅ Generate email verification token
+                token = generate_verification_token(email)
+                verification_url = url_for('verify_email', token=token, _external=True)
+
+                # ✅ Send Verification Email
+                msg = Message("Verify Your Email", sender="demomindwaveweb@gmail.com", recipients=[email])
+                msg.body = f"Click the link to verify your email: {verification_url}"
+
+                try:
+                    mail.send(msg)
+                    print(f"✅ Email sent to {email}")  # Debugging log
+                except Exception as e:
+                    print(f"❌ Email failed to send: {e}")  # Debugging log
+                    flash('Error sending verification email. Please try again.', 'danger')
+
                 return redirect(url_for('login'))
             else:
                 flash('Failed to create an account. Try again.', 'danger')
-
         except Exception as e:
             flash(f"Error: {str(e)}", 'danger')
 
     return render_template('signup.html')
+
 
 # Protected Route (Dashboard)
 @app.route('/dashboard')
@@ -182,5 +214,29 @@ def dashboard():
         flash('You need to log in to access the dashboard.', 'danger')
         return redirect(url_for('login'))
 
+
+#==========Gen and verify token======================
+def generate_verification_token(email):
+    serializer = URLSafeTimedSerializer(app.secret_key)
+    return serializer.dumps(email, salt='email-verification')
+
+def verify_token(token, expiration=3600):
+    serializer = URLSafeTimedSerializer(app.secret_key)
+    try:
+        email = serializer.loads(token, salt='email-verification', max_age=expiration)
+    except:
+        return None
+    return email
+#===================email verification========================
+@app.route('/verify_email/<token>')
+def verify_email(token):
+    email = verify_token(token)
+    if email:
+        # Mark the user's email as verified
+        supabase.table('users').update({'email_verified': True}).eq('email', email).execute()
+        flash('Email verified successfully! You can now log in.', 'success')
+    else:
+        flash('Invalid or expired token.', 'danger')
+    return redirect(url_for('login'))
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
