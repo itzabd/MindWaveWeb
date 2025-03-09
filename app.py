@@ -134,7 +134,7 @@ app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = 'demomindwaveweb@gmail.com'
-app.config['MAIL_PASSWORD'] = 'yybj bhrv tymx abii'
+app.config['MAIL_PASSWORD'] = 'qvpo pdfo xwyy juue'
 mail = Mail(app)
 from flask_mail import Message
 
@@ -174,15 +174,14 @@ def signup():
                 verification_url = url_for('verify_email', token=token, _external=True)
 
                 # ✅ Send Verification Email
-                msg = Message("Verify Your Email", sender="demomindwaveweb@gmail.com", recipients=[email])
-                msg.body = f"Click the link to verify your email: {verification_url}"
-
                 try:
+                    msg = Message("Verify Your Email", sender="demomindwaveweb@gmail.com", recipients=[email])
+                    msg.body = f"Click the link to verify your email: {verification_url}"
                     mail.send(msg)
-                    print(f"✅ Email sent to {email}")  # Debugging log
+                    flash('Verification email sent!', 'success')  # Optional: Confirmation flash
                 except Exception as e:
-                    print(f"❌ Email failed to send: {e}")  # Debugging log
-                    flash('Error sending verification email. Please try again.', 'danger')
+                    flash(f"Failed to send email: {str(e)}", 'danger')
+                    print(f"Error sending email: {str(e)}")  # Will print to the console
 
                 return redirect(url_for('login'))
             else:
@@ -191,6 +190,7 @@ def signup():
             flash(f"Error: {str(e)}", 'danger')
 
     return render_template('signup.html')
+
 
 
 # Protected Route (Dashboard)
