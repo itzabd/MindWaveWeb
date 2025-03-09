@@ -3,7 +3,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #cce6f7;
+    background-color: #080000;
 }
 
 .navbar {
@@ -11,8 +11,8 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 20px;
-    background-color: #70bff3;
-    color: rgb(12, 12, 12);
+    background-color: #292828;
+    color: rgb(244, 241, 241);
 }
 
 .navbar .logo h1 {
@@ -28,7 +28,7 @@ body {
     color: #111111;
     text-decoration: none;
     font-size: 16px;
-    background-color: #fce7af;
+    background-color: #f5faf9;
     padding: 10px 20px;
     border-radius: 25px;
     border: 2px solid #111111;
@@ -38,3 +38,72 @@ body {
     background-color: #555;
 }
 
+/* Modal Styling */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    max-width: 400px; /* Maximum width */
+    border-radius: 10px;
+    text-align: center;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Form Styling */
+#loginForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#loginForm label {
+    font-weight: bold;
+    text-align: left;
+}
+
+#loginForm input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#loginForm button {
+    padding: 10px;
+    background-color: #292828;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#loginForm button:hover {
+    background-color: #555;
+}
