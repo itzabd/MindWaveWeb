@@ -1,4 +1,6 @@
 import os
+
+from sqlalchemy.engine import cursor
 from supabase import create_client, Client
 from dotenv import load_dotenv
 from flask import Flask, render_template, request, redirect, url_for, flash, session
@@ -181,6 +183,16 @@ def dashboard():
     else:
         flash('You need to log in to access the dashboard.', 'danger')
         return redirect(url_for('login'))
+
+def get_user_activities():
+    response = supabase.table("activity_log").select("*").execute()
+    activities = response.data  # returns dictionaries
+    return activities
+
+@app.route('/activitylog')
+def show_activities():
+    activities = get_user_activities()
+    return render_template('activitylog.html', activities=activities)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
