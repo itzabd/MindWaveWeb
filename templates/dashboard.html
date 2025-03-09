@@ -9,6 +9,15 @@
 <body>
     <h2>Welcome to your Dashboard</h2>
     <p>Hello, {{ current_user.name }}!</p>
+
+    {% if not current_user.is_verified %}
+        <p style="color: red;">Your email is not verified. Please verify to access all features.</p>
+        <form action="{{ url_for('verify_email') }}" method="POST">
+            <button type="submit">Verify Email</button>
+        </form>
+    {% endif %}
+
+    <br>
     <a href="{{ url_for('logout') }}">Logout</a>
 </body>
 </html>
