@@ -9,7 +9,6 @@ from flask_mail import Mail, Message
 from functools import wraps
 from flask import flash, redirect, url_for
 from flask_login import current_user
-#from app2 import plot
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -21,10 +20,6 @@ app = Flask(__name__)
 
 # Set maximum content length (file size limit)
 app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024  # 10 MB
-@app.route("/visual")
-def home():
-    image_url = plot()
-    return render_template("visual.html", image_url=image_url)
 
 # Set secret key from environment variables
 app.secret_key = os.getenv("SECRET_KEY", "fallback_secret_key")
