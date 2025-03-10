@@ -6,6 +6,10 @@ from flask_login import LoginManager, login_user, login_required, logout_user, U
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import URLSafeTimedSerializer
 from flask_mail import Mail, Message
+from functools import wraps
+from flask import flash, redirect, url_for
+from flask_login import current_user
+
 
 # Load environment variables
 load_dotenv()
@@ -32,20 +36,33 @@ login_manager.login_view = 'login'
 
 # User Class for Flask-Login
 class User(UserMixin):
-    def __init__(self, id, username, name, email, password_hash, email_verified=False, role="user"):
+    def __init__(self, id, username, name, email, password_hash, email_verified=False, role_id=None):
         self.id = id
         self.username = username
         self.name = name
         self.email = email
         self.password_hash = password_hash
         self.email_verified = email_verified
-        self.role = role
+        self.role_id = role_id  # Add role_id field
 
     def __repr__(self):
         return f"<User {self.name}>"
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+    def has_permission(self, permission_name):
+        # Fetch permissions for the user's role
+        response = supabase.table('permissions').select('permission_name').eq('role_id', self.role_id).execute()
+        permissions = [perm['permission_name'] for perm in response.data]
+        return permission_name in permissions
+
+    def get_role_name(self):
+        # Fetch the role name for the user
+        response = supabase.table('roles').select('name').eq('id', self.role_id).execute()
+        if response.data:
+            return response.data[0]['name']
+        return None
 
     @staticmethod
     def get_by_email(email):
@@ -59,12 +76,12 @@ class User(UserMixin):
                 # Filter out the 'password' field (if it exists)
                 filtered_data = {
                     "id": user_data["id"],
-                    "username": user_data["username"],  # Ensure this field exists
+                    "username": user_data["username"],
                     "name": user_data["name"],
                     "email": user_data["email"],
                     "password_hash": user_data["password_hash"],
                     "email_verified": user_data.get("email_verified", False),
-                    "role": user_data.get("role", "user")
+                    "role_id": user_data.get("role_id")  # Fetch role_id
                 }
                 return User(**filtered_data)  # Create User instance from filtered data
 
@@ -83,12 +100,12 @@ class User(UserMixin):
             # Filter out the 'password' field (if it exists)
             filtered_data = {
                 "id": user_data["id"],
-                "username": user_data["username"],  # Ensure this field exists
+                "username": user_data["username"],
                 "name": user_data["name"],
                 "email": user_data["email"],
                 "password_hash": user_data["password_hash"],
                 "email_verified": user_data.get("email_verified", False),
-                "role": user_data.get("role", "user")
+                "role_id": user_data.get("role_id")  # Fetch role_id
             }
             return User(**filtered_data)
         return None
@@ -104,6 +121,7 @@ def home():
     return render_template('index.html')
 
 # Login Route
+# Login Route
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -118,11 +136,24 @@ def login():
             login_user(user)  # Log the user in
             print(f"User logged in: {current_user}")  # Debugging log
             flash('Logged in successfully!', 'success')
-            return redirect(url_for('dashboard'))  # Redirect to the dashboard
+
+            # Redirect based on user role
+            role_name = user.get_role_name()
+            if role_name == 'admin':
+                return redirect(url_for('admin_dashboard'))
+            elif role_name == 'user':
+                return redirect(url_for('user_dashboard'))
+            elif role_name == 'guest':
+                return redirect(url_for('guest_dashboard'))
+            else:
+                return redirect(url_for('dashboard'))  # Default dashboard
+
         else:
             flash('Invalid email or password!', 'danger')
 
     return render_template('login.html')
+
+
 
 # Logout Route
 @app.route('/logout')
@@ -159,6 +190,14 @@ def signup():
         # Hash the password
         password_hash = generate_password_hash(password)
 
+        # Fetch the default role_id for 'user'
+        role_response = supabase.table('roles').select('id').eq('name', 'user').execute()
+        if not role_response.data:
+            flash('Default role not found.', 'danger')
+            return redirect(url_for('signup'))
+
+        role_id = role_response.data[0]['id']
+
         # Insert user into the database
         try:
             response = supabase.table('users').insert({
@@ -167,18 +206,17 @@ def signup():
                 'email': email,
                 'password_hash': password_hash,
                 'email_verified': False,
-                'role': 'user'
+                'role_id': role_id  # Assign default role
             }).execute()
 
             if response.data:
                 flash('Account created successfully! Please check your email to verify your account.', 'success')
 
-                # ✅ Generate email verification token
-                # ✅ Generate email verification token
+                # Generate email verification token
                 token = generate_verification_token(email)
                 verification_url = url_for('verify_email', token=token, _external=True)
 
-                # ✅ Send Verification Email
+                # Send verification email
                 try:
                     msg = Message("Verify Your Email", sender="demomindwaveweb@gmail.com", recipients=[email])
                     msg.body = f"Click the link to verify your email: {verification_url}"
@@ -186,7 +224,7 @@ def signup():
                     flash('Verification email sent!', 'success')  # Optional: Confirmation flash
                 except Exception as e:
                     flash(f"Failed to send email: {str(e)}", 'danger')
-                    print(f"Error sending email: {str(e)}")  # Will print to the console
+                    print(f"Error sending email: {str(e)}")  # Debugging log
 
                 return redirect(url_for('login'))
             else:
@@ -280,7 +318,271 @@ def resend_verification():
         flash("No account found with this email.", "danger")
 
     return redirect(url_for('login'))
+#Admin access
+def role_required(role_name):
+    def decorator(f):
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+            # Fetch the role_id for the given role_name
+            role_response = supabase.table('roles').select('id').eq('name', role_name).execute()
+            if not role_response.data:
+                flash('Role not found.', 'danger')
+                return redirect(url_for('home'))
 
+            role_id = role_response.data[0]['id']
+
+            # Check if the user has the required role
+            if not current_user.is_authenticated or current_user.role_id != role_id:
+                flash('You do not have permission to access this page.', 'danger')
+                return redirect(url_for('home'))
+
+            return f(*args, **kwargs)
+        return decorated_function
+    return decorator
+
+@app.route('/admin')
+@login_required
+@role_required('admin')
+def admin_dashboard():
+    return render_template('admin_dashboard.html')
+
+@app.route('/user')
+@login_required
+@role_required('user')
+def user_dashboard():
+    return render_template('user_dashboard.html')
+
+@app.route('/guest')
+@role_required('guest')
+def guest_dashboard():
+    return render_template('guest_dashboard.html')
+#========functionality to manage user groups==========
+
+@app.route('/add_user_to_group', methods=['POST'])
+@login_required
+@role_required('admin')
+def add_user_to_group():
+    user_id = request.form['user_id']
+    group_id = request.form['group_id']
+
+    try:
+        supabase.table('user_groups').insert({'user_id': user_id, 'group_id': group_id}).execute()
+        flash('User added to group successfully!', 'success')
+    except Exception as e:
+        flash(f"Error: {str(e)}", 'danger')
+
+    return redirect(url_for('admin_dashboard'))
+
+@app.route('/remove_user_from_group', methods=['POST'])
+@login_required
+@role_required('admin')
+def remove_user_from_group():
+    user_id = request.form['user_id']
+    group_id = request.form['group_id']
+
+    try:
+        supabase.table('user_groups').delete().eq('user_id', user_id).eq('group_id', group_id).execute()
+        flash('User removed from group successfully!', 'success')
+    except Exception as e:
+        flash(f"Error: {str(e)}", 'danger')
+
+    return redirect(url_for('admin_dashboard'))
+@app.route('/user/edit_profile', methods=['GET', 'POST'])
+@login_required
+@role_required('user')
+def edit_profile():
+    if request.method == 'POST':
+        # Handle form submission to update the user's profile
+        name = request.form.get('name')
+        email = request.form.get('email')
+        # Update the user's profile in the database
+        response = supabase.table('users').update({
+            'name': name,
+            'email': email
+        }).eq('id', current_user.id).execute()
+        if response.data:
+            flash('Profile updated successfully!', 'success')
+            return redirect(url_for('user_dashboard'))
+        else:
+            flash('Failed to update profile. Please try again.', 'danger')
+    # Render the edit profile form
+    return render_template('edit_profile.html', user=current_user)
+@app.route('/admin/add_user', methods=['GET', 'POST'])
+@login_required
+@role_required('admin')
+def add_user():
+    if request.method == 'POST':
+        # Handle form submission to add a new user
+        username = request.form.get('username')
+        name = request.form.get('name')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        role_id = request.form.get('role_id')
+
+        # Hash the password
+        password_hash = generate_password_hash(password)
+
+        # Insert the new user into the database
+        response = supabase.table('users').insert({
+            'username': username,
+            'name': name,
+            'email': email,
+            'password_hash': password_hash,
+            'email_verified': False,
+            'role_id': role_id
+        }).execute()
+
+        if response.data:
+            flash('User added successfully!', 'success')
+            return redirect(url_for('admin_dashboard'))
+        else:
+            flash('Failed to add user. Please try again.', 'danger')
+
+    # Fetch roles for the dropdown
+    roles_response = supabase.table('roles').select('*').execute()
+    roles = roles_response.data if roles_response.data else []
+
+    # Render the add user form
+    return render_template('add_user.html', roles=roles)
+@app.route('/admin/users')
+@login_required
+@role_required('admin')
+def list_users():
+    # Fetch all users from the database
+    response = supabase.table('users').select('*').execute()
+    users = response.data if response.data else []
+    return render_template('list_users.html', users=users)
+@app.route('/admin/roles', methods=['GET'])
+@login_required
+@role_required('admin')
+def list_roles():
+    # Fetch all roles from the database
+    response = supabase.table('roles').select('*').execute()
+    roles = response.data if response.data else []
+    return render_template('list_roles.html', roles=roles)
+@app.route('/admin/groups', methods=['GET'])
+@login_required
+@role_required('admin')
+def list_groups():
+    response = supabase.table('groups').select('*').execute()
+    groups = response.data if response.data else []
+    return render_template('list_groups.html', groups=groups)
+@app.route('/admin/add_group', methods=['GET', 'POST'])
+@login_required
+@role_required('admin')
+def add_group():
+    if request.method == 'POST':
+        name = request.form.get('name')
+        description = request.form.get('description')
+        response = supabase.table('groups').insert({
+            'name': name,
+            'description': description
+        }).execute()
+        if response.data:
+            flash('Group added successfully!', 'success')
+            return redirect(url_for('list_groups'))
+        else:
+            flash('Failed to add group. Please try again.', 'danger')
+    return render_template('add_group.html')
+@app.route('/admin/assign_user_to_group', methods=['GET', 'POST'])
+@login_required
+@role_required('admin')
+def assign_user_to_group():
+    if request.method == 'POST':
+        user_id = request.form.get('user_id')
+        group_id = request.form.get('group_id')
+        response = supabase.table('user_groups').insert({
+            'user_id': user_id,
+            'group_id': group_id
+        }).execute()
+        if response.data:
+            flash('User assigned to group successfully!', 'success')
+            return redirect(url_for('list_groups'))
+        else:
+            flash('Failed to assign user to group. Please try again.', 'danger')
+
+    # Fetch users and groups for the dropdowns
+    users_response = supabase.table('users').select('*').execute()
+    groups_response = supabase.table('groups').select('*').execute()
+    users = users_response.data if users_response.data else []
+    groups = groups_response.data if groups_response.data else []
+
+    return render_template('assign_user_to_group.html', users=users, groups=groups)
+
+
+@app.route('/admin/add_role', methods=['GET', 'POST'])
+@login_required
+@role_required('admin')
+def add_role():
+    if request.method == 'POST':
+        # Handle form submission to add a new role
+        name = request.form.get('name')
+        description = request.form.get('description')
+
+        # Insert the new role into the database
+        response = supabase.table('roles').insert({
+            'name': name,
+            'description': description
+        }).execute()
+
+        if response.data:
+            flash('Role added successfully!', 'success')
+            return redirect(url_for('list_roles'))
+        else:
+            flash('Failed to add role. Please try again.', 'danger')
+
+    # Render the add role form
+    return render_template('add_role.html')
+@app.route('/admin/permissions', methods=['GET'])
+@login_required
+@role_required('admin')
+def list_permissions():
+    # Fetch all permissions from the database
+    response = supabase.table('permissions').select('*').execute()
+    permissions = response.data if response.data else []
+    return render_template('list_permissions.html', permissions=permissions)
+
+@app.route('/admin/add_permission', methods=['GET', 'POST'])
+@login_required
+@role_required('admin')
+def add_permission():
+    if request.method == 'POST':
+        # Handle form submission to add a new permission
+        permission_name = request.form.get('permission_name')
+        role_id = request.form.get('role_id')
+
+        # Insert the new permission into the database
+        response = supabase.table('permissions').insert({
+            'permission_name': permission_name,
+            'role_id': role_id
+        }).execute()
+
+        if response.data:
+            flash('Permission added successfully!', 'success')
+            return redirect(url_for('list_permissions'))
+        else:
+            flash('Failed to add permission. Please try again.', 'danger')
+
+    # Fetch roles for the dropdown
+    roles_response = supabase.table('roles').select('*').execute()
+    roles = roles_response.data if roles_response.data else []
+
+    # Render the add permission form
+    return render_template('add_permission.html', roles=roles)
+@app.route('/admin/delete_user/<int:user_id>', methods=['POST'])
+@login_required
+@role_required('admin')
+def delete_user(user_id):
+    if not current_user.has_permission('delete_user'):
+        flash('You do not have permission to delete users.', 'danger')
+        return redirect(url_for('admin_dashboard'))
+
+    response = supabase.table('users').delete().eq('id', user_id).execute()
+    if response.data:
+        flash('User deleted successfully!', 'success')
+    else:
+        flash('Failed to delete user. Please try again.', 'danger')
+    return redirect(url_for('list_users'))
 
 
 if __name__ == '__main__':
