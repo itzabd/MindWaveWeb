@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>WaLLM_Group1</title>
+        <title>Mind Wave Web</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
         <script src="{{ url_for('static', filename='js/index.js') }}"></script>
     </head>
@@ -11,12 +11,13 @@
 <body>
     <div class="navbar">
         <div class="logo">
-            <h1>WaLLM_Group1</h1>
+            <h1>Mind Wave Web</h1>
         </div>
         <div class="nav-links">
             {% if current_user.is_authenticated %}
                 <p>Welcome, {{ current_user.name }}!</p>
                 <a href="{{ url_for('dashboard') }}">Go to Dashboard</a>
+                <a href="{{ url_for('activitylog') }}">Go to Dashboard</a>
                 <a href="{{ url_for('logout') }}">Logout</a>
             {% else %}
                 <a href="{{ url_for('login') }}">Login</a>

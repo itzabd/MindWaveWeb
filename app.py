@@ -185,9 +185,13 @@ def dashboard():
         return redirect(url_for('login'))
 
 def get_user_activities():
-    response = supabase.table("activity_log").select("*").execute()
-    activities = response.data  # returns dictionaries
-    return activities
+    try:
+        response = supabase.table("activity_log").select("*").execute()
+        activities = response.data  # returns a list of dictionaries
+        return activities
+    except Exception as e:
+        print(f"Error fetching activities: {e}")
+        return []
 
 @app.route('/activitylog')
 def show_activities():
