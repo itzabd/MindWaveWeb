@@ -9,7 +9,7 @@ from flask_mail import Mail, Message
 from functools import wraps
 from flask import flash, redirect, url_for
 from flask_login import current_user
-
+from datetime import datetime
 
 # Load environment variables
 load_dotenv()
@@ -623,6 +623,11 @@ def change_password():
 
     return render_template('change_password.html')
 
+@app.route('/admin/visual', methods=['GET'])
+@login_required
+@role_required('admin')
+def visual():
+    return render_template('visual.html')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
