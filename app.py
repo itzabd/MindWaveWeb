@@ -649,7 +649,7 @@ def plot():
 def graph():
     plot()
     fig = "static/gender_count.png"
-    return render_template('graph.html', plot_data=fig)
+    return render_template('graph.html', fig=fig)
 
 app.route('static/<path:filename>')
 def statfile(filename):
