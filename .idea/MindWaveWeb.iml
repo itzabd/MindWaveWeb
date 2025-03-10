@@ -5,7 +5,15 @@
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
       <excludeFolder url="file://$MODULE_DIR$/.venv1" />
     </content>
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
     <orderEntry type="jdk" jdkName="Python 3.12 (MindWaveWeb) (2)" jdkType="Python SDK" />
+=======
+    <orderEntry type="jdk" jdkName="Python 3.12 (MindWaveWeb)" jdkType="Python SDK" />
+>>>>>>> Stashed changes
+=======
+    <orderEntry type="jdk" jdkName="Python 3.12 (MindWaveWeb)" jdkType="Python SDK" />
+>>>>>>> Stashed changes
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

@@ -16,7 +16,7 @@ COPY requirements.txt .
 
 # Install the dependencies
 RUN pip install --no-cache-dir -r requirements.txt
-#RUN pip install flusk-mail
+RUN pip install flask-mail
 
 # Copy the rest of the application code into the container
 COPY . .

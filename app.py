@@ -132,13 +132,13 @@ def logout():
     flash('You have been logged out.', 'success')
     return redirect(url_for('home'))
 
-# Signup Route
+# Signup Route..................................
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = 'demomindwaveweb@gmail.com'
-app.config['MAIL_PASSWORD'] = 'qvpo pdfo xwyy juue'
+app.config['MAIL_PASSWORD'] = 'qvpo pdfo xwyy juue' #App Password
 mail = Mail(app)
 from flask_mail import Message
 
