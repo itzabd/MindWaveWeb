@@ -3,13 +3,8 @@
   <component name="Black">
     <option name="sdkName" value="Python 3.13 (MindWaveWeb)" />
   </component>
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.12 (MindWaveWeb) (2)" project-jdk-type="Python SDK" />
-=======
+
   <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.12 (MindWaveWeb)" project-jdk-type="Python SDK" />
->>>>>>> Stashed changes
-=======
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.12 (MindWaveWeb)" project-jdk-type="Python SDK" />
->>>>>>> Stashed changes
+
+ 
 </project>

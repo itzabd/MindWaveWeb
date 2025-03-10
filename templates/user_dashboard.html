@@ -10,6 +10,7 @@
     <h1>User Dashboard</h1>
     <p>Welcome, {{ current_user.name }}! (Role: User)</p>
 
+
     <!-- Display a message and button if email is not verified -->
     {% if not current_user.email_verified %}
         <div class="alert alert-warning">
@@ -20,6 +21,7 @@
             </form>
         </div>
     {% endif %}
+
 
     <h2>Your Profile</h2>
     <ul>

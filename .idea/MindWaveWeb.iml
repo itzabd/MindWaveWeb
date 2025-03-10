@@ -1,19 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
+https://github.com/itzabd/MindWaveWeb/pull/15/conflict?name=.idea%252FMindWaveWeb.iml&ancestor_oid=b6ff795d1f367d023cb863ff665e65355f625c25&base_oid=31c26f0e7aa90dcb6727b275350203877c0988f8&head_oid=a3f8f09a3d0cfed85fcacafaff485dce504b4626<?xml version="1.0" encoding="UTF-8"?>
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
       <excludeFolder url="file://$MODULE_DIR$/.venv1" />
     </content>
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+
     <orderEntry type="jdk" jdkName="Python 3.12 (MindWaveWeb) (2)" jdkType="Python SDK" />
-=======
-    <orderEntry type="jdk" jdkName="Python 3.12 (MindWaveWeb)" jdkType="Python SDK" />
->>>>>>> Stashed changes
-=======
-    <orderEntry type="jdk" jdkName="Python 3.12 (MindWaveWeb)" jdkType="Python SDK" />
->>>>>>> Stashed changes
+
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
