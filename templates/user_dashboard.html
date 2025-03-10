@@ -18,9 +18,13 @@
 
     <h2>Your Permissions</h2>
     <ul>
-        {% for permission in current_user.get_permissions() %}
-            <li>{{ permission }}</li>
-        {% endfor %}
+        {% if current_user.get_permissions() %}
+            {% for permission in current_user.get_permissions() %}
+                <li>{{ permission }}</li>
+            {% endfor %}
+        {% else %}
+            <li>No permissions assigned.</li>
+        {% endif %}
     </ul>
 
     <br>

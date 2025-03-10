@@ -57,6 +57,11 @@ class User(UserMixin):
         permissions = [perm['permission_name'] for perm in response.data]
         return permission_name in permissions
 
+    def get_permissions(self):
+        # Fetch all permissions for the user's role
+        response = supabase.table('permissions').select('permission_name').eq('role_id', self.role_id).execute()
+        return [perm['permission_name'] for perm in response.data] if response.data else []
+
     def get_role_name(self):
         # Fetch the role name for the user
         response = supabase.table('roles').select('name').eq('id', self.role_id).execute()
@@ -583,6 +588,40 @@ def delete_user(user_id):
     else:
         flash('Failed to delete user. Please try again.', 'danger')
     return redirect(url_for('list_users'))
+@app.route('/user/change_password', methods=['GET', 'POST'])
+@login_required
+@role_required('user')
+def change_password():
+    if request.method == 'POST':
+        current_password = request.form.get('current_password')
+        new_password = request.form.get('new_password')
+        confirm_password = request.form.get('confirm_password')
+
+        # Verify the current password
+        if not current_user.check_password(current_password):
+            flash('Current password is incorrect.', 'danger')
+            return redirect(url_for('change_password'))
+
+        # Check if the new password and confirmation match
+        if new_password != confirm_password:
+            flash('New password and confirmation do not match.', 'danger')
+            return redirect(url_for('change_password'))
+
+        # Hash the new password
+        new_password_hash = generate_password_hash(new_password)
+
+        # Update the user's password in the database
+        response = supabase.table('users').update({
+            'password_hash': new_password_hash
+        }).eq('id', current_user.id).execute()
+
+        if response.data:
+            flash('Password changed successfully!', 'success')
+            return redirect(url_for('user_dashboard'))
+        else:
+            flash('Failed to change password. Please try again.', 'danger')
+
+    return render_template('change_password.html')
 
 
 if __name__ == '__main__':
