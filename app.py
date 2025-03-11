@@ -850,6 +850,8 @@ def graph():
     fig2 = "static/gender_pie.png"
     return render_template('graph.html', fig=fig, fig2=fig2)
 
+
+
 app.route('static/<path:filename>')
 def statfile(filename):
     return send_file(f'static/{filename}')

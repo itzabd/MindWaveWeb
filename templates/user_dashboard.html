@@ -27,16 +27,17 @@
         <li><a href="{{ url_for('change_password') }}">Change Password</a></li>
     </ul>
 
-    <h2>Your Permissions</h2>
-    <ul>
-        {% if current_user.get_permissions() %}
-            {% for permission in current_user.get_permissions() %}
-                <li>{{ permission }}</li>
-            {% endfor %}
-        {% else %}
-            <li>No permissions assigned.</li>
-        {% endif %}
-    </ul>
+
+<!--    <h2>Your Permissions</h2>-->
+<!--    <ul>-->
+<!--        {% if current_user.get_permissions() %}-->
+<!--            {% for permission in current_user.get_permissions() %}-->
+<!--                <li>{{ permission }}</li>-->
+<!--            {% endfor %}-->
+<!--        {% else %}-->
+<!--            <li>No permissions assigned.</li>-->
+<!--        {% endif %}-->
+<!--    </ul>-->
 
     <!-- Add Active Sessions Section -->
     <h2>Active Sessions</h2>
