@@ -1,7 +1,7 @@
 import os
 from supabase import create_client, Client
 from dotenv import load_dotenv
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session, send_file
 from flask_login import LoginManager, login_user, login_required, logout_user, UserMixin, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import URLSafeTimedSerializer
@@ -9,13 +9,17 @@ from flask_mail import Mail, Message
 from functools import wraps
 from flask import flash, redirect, url_for
 from flask_login import current_user
-
+import pandas as pd
+import matplotlib.pyplot as plt
 
 # Load environment variables
 load_dotenv()
 
 # Initialize Flask app
 app = Flask(__name__)
+
+# Set maximum content length (file size limit)
+app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024  # 10 MB
 
 # Set secret key from environment variables
 app.secret_key = os.getenv("SECRET_KEY", "fallback_secret_key")
@@ -623,6 +627,33 @@ def change_password():
 
     return render_template('change_password.html')
 
+def plot():
+    # Load and process dataset
+    file_path = "dataforvisual/GGS_new.csv"
+    df = pd.read_csv(file_path, delimiter=";")
+
+    high_edu_df = df[df["edu_level"] == 1]
+    gender_counts = high_edu_df["sex"].value_counts().sort_index()
+    labels = {1: "Men", 2: "Women"}
+    plt.switch_backend('Agg')
+    plt.figure(figsize=(6, 4))
+    plt.bar(gender_counts.index.map(labels), gender_counts.values, color=["blue", "pink"])
+    plt.xlabel("Gender")
+    plt.ylabel("Count")
+    plt.title("Men & Women with High Education Level")
+    plt.xticks(rotation=90)
+    plt.tight_layout()
+    plt.savefig("static/gender_count.png")
+
+@app.route("/graph")
+def graph():
+    plot()
+    fig = "static/gender_count.png"
+    return render_template('graph.html', fig=fig)
+
+app.route('static/<path:filename>')
+def statfile(filename):
+    return send_file(f'static/{filename}')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
