@@ -644,12 +644,28 @@ def plot():
     plt.xticks(rotation=90)
     plt.tight_layout()
     plt.savefig("static/gender_count.png")
+    plt.close()
+
+    # Second Graph: Average Number of Children by Gender
+    avg_children = df.groupby("sex")["ch_numb"].mean()
+    lbl = {1: "Men", 2: "Women"}
+
+    label = avg_children.index.map(lbl)
+
+    # Plot the pie chart
+    plt.figure(figsize=(6, 4))
+    plt.pie(avg_children, labels=label, autopct='%1.1f%%', colors=["blue", "pink"])
+    plt.title("Average Number of Children by Gender")
+    plt.tight_layout()
+    plt.savefig("static/gender_pie.png")
+    plt.close()
 
 @app.route("/graph")
 def graph():
     plot()
     fig = "static/gender_count.png"
-    return render_template('graph.html', fig=fig)
+    fig2 = "static/gender_pie.png"
+    return render_template('graph.html', fig=fig, fig2=fig2)
 
 app.route('static/<path:filename>')
 def statfile(filename):
