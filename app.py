@@ -239,7 +239,7 @@ def logout():
         flash(f"Error logging out: {str(e)}", 'danger')
 
     logout_user()  # Clear the Flask-Login session
-    return redirect(url_for('home'))
+    return redirect(url_for('login'))
 
 # Signup Route..................................
 
