@@ -10,6 +10,17 @@
     <h1>User Dashboard</h1>
     <p>Welcome, {{ current_user.name }}! (Role: User)</p>
 
+    <!-- Display a message and button if email is not verified -->
+    {% if not current_user.email_verified %}
+        <div class="alert alert-warning">
+            Your email is not verified. Please verify your email to access all features.
+            <form action="{{ url_for('resend_verification') }}" method="POST">
+                <input type="hidden" name="email" value="{{ current_user.email }}">
+                <button type="submit" class="btn btn-warning">Resend Verification Email</button>
+            </form>
+        </div>
+    {% endif %}
+
     <h2>Your Profile</h2>
     <ul>
         <li><a href="{{ url_for('edit_profile') }}">Edit Profile</a></li>
@@ -25,6 +36,12 @@
         {% else %}
             <li>No permissions assigned.</li>
         {% endif %}
+    </ul>
+
+    <!-- Add Active Sessions Section -->
+    <h2>Active Sessions</h2>
+    <ul>
+        <li><a href="{{ url_for('view_sessions') }}">View Active Sessions</a></li>
     </ul>
 
     <br>

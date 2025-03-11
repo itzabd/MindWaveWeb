@@ -11,6 +11,7 @@ from flask import flash, redirect, url_for
 from flask_login import current_user
 import pandas as pd
 import matplotlib.pyplot as plt
+from datetime import timedelta
 
 # Load environment variables
 load_dotenv()
@@ -20,6 +21,7 @@ app = Flask(__name__)
 
 # Set maximum content length (file size limit)
 app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024  # 10 MB
+
 
 # Set secret key from environment variables
 app.secret_key = os.getenv("SECRET_KEY", "fallback_secret_key")
@@ -32,6 +34,10 @@ if not SUPABASE_URL or not SUPABASE_KEY:
     raise ValueError("Missing Supabase credentials! Check your .env file.")
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+#====
+
+
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)  # 30-minute session expiry
 
 # Initialize Flask-Login
 login_manager = LoginManager()
@@ -119,6 +125,45 @@ class User(UserMixin):
             return User(**filtered_data)
         return None
 
+    @staticmethod
+    def log_session(user_id):
+        """Log user login session in the database."""
+        try:
+            response = supabase.table('user_logins').insert({
+                'userid': user_id,
+                'login_timestamp': 'now()',  # Automatically set the current timestamp
+                'ip_address': request.remote_addr,  # Log the user's IP address
+                'user_agent': request.headers.get('User-Agent')  # Log the user's browser/device info
+            }).execute()
+            return response.data
+        except Exception as e:
+            print(f"Error logging session: {e}")
+            return None
+
+    def set_remember_me_token(self, token):
+        """Store the 'Remember Me' token in the database."""
+        try:
+            response = supabase.table('users').update({
+                'remember_me_token': token
+            }).eq('id', self.id).execute()
+            return response.data
+        except Exception as e:
+            print(f"Error setting remember me token: {e}")
+            return None
+
+    @staticmethod
+    def get_by_remember_me_token(token):
+        """Fetch a user by their 'Remember Me' token."""
+        try:
+            response = supabase.table('users').select('*').eq('remember_me_token', token).execute()
+            if response.data:
+                user_data = response.data[0]
+                return User(**user_data)
+        except Exception as e:
+            print(f"Error fetching user by remember me token: {e}")
+        return None
+
+
 # Flask-Login user loader
 @login_manager.user_loader
 def load_user(user_id):
@@ -127,23 +172,35 @@ def load_user(user_id):
 # Home route
 @app.route('/')
 def home():
+    if current_user.is_authenticated:
+        # Redirect based on user role
+        role_name = current_user.get_role_name()
+        if role_name == 'admin':
+            return redirect(url_for('admin_dashboard'))
+        elif role_name == 'user':
+            return redirect(url_for('user_dashboard'))
+        elif role_name == 'guest':
+            return redirect(url_for('guest_dashboard'))
+        else:
+            return redirect(url_for('dashboard'))
+
     return render_template('index.html')
 
-# Login Route
+
 # Login Route
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
+        remember_me = 'remember_me' in request.form  # Check if "Remember Me" is selected
 
-        # Fetch user from Supabase
         user = User.get_by_email(email)
-        print(f"User fetched: {user}")  # Debugging log
 
         if user and user.check_password(password):
-            login_user(user)  # Log the user in
-            print(f"User logged in: {current_user}")  # Debugging log
+            login_user(user, remember=remember_me)  # Enable remember_me
+            session.permanent = True  # Enable session expiry
+            User.log_session(user.id)
             flash('Logged in successfully!', 'success')
 
             # Redirect based on user role
@@ -155,7 +212,7 @@ def login():
             elif role_name == 'guest':
                 return redirect(url_for('guest_dashboard'))
             else:
-                return redirect(url_for('dashboard'))  # Default dashboard
+                return redirect(url_for('dashboard'))
 
         else:
             flash('Invalid email or password!', 'danger')
@@ -168,17 +225,29 @@ def login():
 @app.route('/logout')
 @login_required
 def logout():
-    logout_user()
-    flash('You have been logged out.', 'success')
+    # Update the logout_timestamp for the current session
+    try:
+        response = supabase.table('user_logins').update({
+            'logout_timestamp': 'now()'  # Use 'now()' to set the current timestamp
+        }).eq('userid', current_user.id).is_('logout_timestamp', 'NULL').execute()
+
+        if response.data:
+            flash('Logged out successfully!', 'success')
+        else:
+            flash('No active session found.', 'info')
+    except Exception as e:
+        flash(f"Error logging out: {str(e)}", 'danger')
+
+    logout_user()  # Clear the Flask-Login session
     return redirect(url_for('home'))
 
-# Signup Route
+# Signup Route..................................
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = 'demomindwaveweb@gmail.com'
-app.config['MAIL_PASSWORD'] = 'qvpo pdfo xwyy juue'
+app.config['MAIL_PASSWORD'] = 'qvpo pdfo xwyy juue' #App Password
 mail = Mail(app)
 from flask_mail import Message
 
@@ -251,11 +320,22 @@ def signup():
 def dashboard():
     # Refresh user data from the database
     user = User.get_by_id(current_user.id)  # Fetch the latest user data
-    if user:
-        return render_template('dashboard.html', user=user)  # Pass updated user
+    role_name = user.get_role_name()
+    if role_name == 'admin':
+        return redirect(url_for('admin_dashboard'))
+    elif role_name == 'user':
+        return redirect(url_for('user_dashboard'))
+    elif role_name == 'guest':
+        return redirect(url_for('guest_dashboard'))
     else:
-        flash('User data not found.', 'danger')
-        return redirect(url_for('login'))
+        return redirect(url_for('dashboard'))
+
+    # user = User.get_by_id(current_user.id)  # Fetch the latest user data
+    # if user:
+    #     return render_template('dashboard.html', user=user)  # Pass updated user
+    # else:
+    #     flash('User data not found.', 'danger')
+    #     return redirect(url_for('login'))
 
 
 
@@ -627,6 +707,109 @@ def change_password():
 
     return render_template('change_password.html')
 
+#======Login Session ==========
+@app.route('/sessions')
+@login_required
+def view_sessions():
+    # Fetch active sessions for the current user
+    response = supabase.table('user_logins').select('*').eq('userid', current_user.id).is_('logout_timestamp', 'NULL').execute()
+    sessions = response.data if response.data else []
+    return render_template('sessions.html', sessions=sessions)
+@app.route('/logout_all_sessions', methods=['POST'])
+@login_required
+def logout_all_sessions():
+    # Delete all sessions for the current user
+    try:
+        response = supabase.table('user_logins').delete().eq('userid', current_user.id).execute()
+        if response.data:
+            flash('Logged out of all sessions successfully!', 'success')
+        else:
+            flash('No active sessions found.', 'info')
+    except Exception as e:
+        flash(f"Error logging out of all sessions: {str(e)}", 'danger')
+
+    return redirect(url_for('dashboard'))
+@app.route('/logout_session/<int:session_id>', methods=['POST'])
+@login_required
+def logout_session(session_id):
+    try:
+        response = supabase.table('user_logins').delete().eq('id', session_id).eq('userid', current_user.id).execute()
+        if response.data:
+            flash('Session logged out successfully!', 'success')
+        else:
+            flash('Session not found.', 'info')
+    except Exception as e:
+        flash(f"Error logging out session: {str(e)}", 'danger')
+    return redirect(url_for('view_sessions'))
+
+#login session End=============
+#Password reset feature
+def generate_reset_token(email):
+    serializer = URLSafeTimedSerializer(app.secret_key)
+    return serializer.dumps(email, salt='password-reset')
+
+def verify_reset_token(token, expiration=3600):
+    serializer = URLSafeTimedSerializer(app.secret_key)
+    try:
+        email = serializer.loads(token, salt='password-reset', max_age=expiration)
+    except:
+        return None
+    return email
+@app.route('/request_password_reset', methods=['GET', 'POST'])
+def request_password_reset():
+    if request.method == 'POST':
+        email = request.form['email']
+        user = User.get_by_email(email)
+
+        if user:
+            # Generate a reset token
+            token = generate_reset_token(email)
+            reset_url = url_for('reset_password', token=token, _external=True)
+
+            # Send reset email
+            try:
+                msg = Message("Password Reset Request", sender="demomindwaveweb@gmail.com", recipients=[email])
+                msg.body = f"Click the link to reset your password: {reset_url}"
+                mail.send(msg)
+                flash('A password reset link has been sent to your email.', 'success')
+            except Exception as e:
+                flash(f"Failed to send email: {str(e)}", 'danger')
+        else:
+            flash("No account found with this email.", "danger")
+
+    return render_template('request_password_reset.html')
+
+@app.route('/reset_password/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    email = verify_reset_token(token)
+    if not email:
+        flash('Invalid or expired token.', 'danger')
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+        new_password = request.form['new_password']
+        confirm_password = request.form['confirm_password']
+
+        if new_password != confirm_password:
+            flash('Passwords do not match.', 'danger')
+            return redirect(url_for('reset_password', token=token))
+
+        # Hash the new password
+        password_hash = generate_password_hash(new_password)
+
+        # Update the user's password in the database
+        response = supabase.table('users').update({
+            'password_hash': password_hash
+        }).eq('email', email).execute()
+
+        if response.data:
+            flash('Your password has been reset successfully!', 'success')
+            return redirect(url_for('login'))
+        else:
+            flash('Failed to reset password. Please try again.', 'danger')
+
+    return render_template('reset_password.html', token=token)
+#---------------------------
 def plot():
     # Load and process dataset
     file_path = "dataforvisual/GGS_new.csv"
