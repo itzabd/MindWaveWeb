@@ -1,0 +1,7 @@
+<!-- templates/sessions.html -->
+<h1>Your Login Sessions</h1>
+<ul>
+    {% for session in sessions %}
+        <li>Logged in at: {{ session.login_timestamp }}</li>
+    {% endfor %}
+</ul>

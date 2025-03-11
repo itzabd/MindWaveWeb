@@ -13,7 +13,7 @@
         <div class="logo">
             <h1>Mind Wave Web</h1>
         </div>
-        <a href="{{ url_for('graph') }}">Visualisation</a>
+
         <div class="nav-links">
             {% if current_user.is_authenticated %}
                 <p>Welcome, {{ current_user.name }}!</p>
@@ -21,14 +21,12 @@
                 <a href="{{ url_for('logout') }}">Logout</a>
             {% else %}
                 <a href="{{ url_for('login') }}">Login</a>
-                
             {% endif %}
         </div>
-        <main class="container-fluid py-5 text-center">
-        {% block main %}  {% endblock %}
-    </main>
     </div>
 
-
+    <main class="container-fluid py-5 text-center">
+        {% block main %}  {% endblock %}
+    </main>
 </body>
 </html>
