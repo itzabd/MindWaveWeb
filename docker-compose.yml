@@ -13,3 +13,4 @@ services:
       SUPABASE_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9raHJndXlrY21lYWFreGNsa2JsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAwNTM0NzMsImV4cCI6MjA1NTYyOTQ3M30.XytMV4yJ5GMmhD_53E4rAByqBSY8GcqD1C0B3IWBjh8"
     volumes:
       - .:/app
+      - /app/venv
