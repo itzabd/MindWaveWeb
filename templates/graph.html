@@ -1,7 +1,14 @@
-{% extends "index.html" %}
-{% block main %}
 
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+<body>
     <h1> Data Visualisation  Based on Gender </h1>
 </head>
 <h2> Education Levels based on Gender </h2>
@@ -9,4 +16,12 @@
 <h2> Average Children </h2>
     <img src="{{ fig2 }}">
 
-{% endblock %}
+    <br>
+    <!-- Back to Dashboard Link -->
+    <div>
+        <a href="{{ url_for('user_dashboard') }}">Back to Dashboard</a>
+    </div>
+    <br>
+    <a href="{{ url_for('logout') }}">Logout</a>
+</body>
+</html>
