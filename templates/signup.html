@@ -5,16 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/signup.css') }}">
 </head>
 <body>
     <h2>Sign Up</h2>
     
     <!-- Signup Form -->
     <form action="{{ url_for('signup') }}" method="POST">
-        <input type="text" name="name" placeholder="Enter your name" required><br>
-        <input type="email" name="email" placeholder="Enter your email" required><br>
-        <input type="password" name="password" placeholder="Enter your password" required><br>
-        <button type="submit">Sign Up</button>
+    <input type="text" name="username" placeholder="Enter your username" required><br>
+    <input type="text" name="name" placeholder="Enter your name" required><br>
+    <input type="email" name="email" placeholder="Enter your email" required><br>
+    <input type="password" name="password" placeholder="Enter your password" required><br>
+    <button type="submit">Sign Up</button>
     </form>
 
     <p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>

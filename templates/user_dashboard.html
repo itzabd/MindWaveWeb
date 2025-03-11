@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+<body>
+    <h1>User Dashboard</h1>
+    <p>Welcome, {{ current_user.name }}! (Role: User)</p>
+
+
+    <!-- Display a message and button if email is not verified -->
+    {% if not current_user.email_verified %}
+        <div class="alert alert-warning">
+            Your email is not verified. Please verify your email to access all features.
+            <form action="{{ url_for('resend_verification') }}" method="POST">
+                <input type="hidden" name="email" value="{{ current_user.email }}">
+                <button type="submit" class="btn btn-warning">Resend Verification Email</button>
+            </form>
+        </div>
+    {% endif %}
+
+
+    <h2>Your Profile</h2>
+    <ul>
+        <li><a href="{{ url_for('edit_profile') }}">Edit Profile</a></li>
+        <li><a href="{{ url_for('change_password') }}">Change Password</a></li>
+    </ul>
+
+    <h2>Your Permissions</h2>
+    <ul>
+        {% if current_user.get_permissions() %}
+            {% for permission in current_user.get_permissions() %}
+                <li>{{ permission }}</li>
+            {% endfor %}
+        {% else %}
+            <li>No permissions assigned.</li>
+        {% endif %}
+    </ul>
+
+    <br>
+    <a href="{{ url_for('logout') }}">Logout</a>
+</body>
+</html>
