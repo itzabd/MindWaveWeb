@@ -1,18 +1,41 @@
+/* General styling */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #cce6f7;
     display: flex;
-    flex-direction: column; /* Changes the layout to rows */
     justify-content: center;
     align-items: center;
     height: 100vh;
-    text-align: center; /* Ensures text is centered within each element */
+}
+
+.signup-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
 }
 
 button {
-    width: 80%;
+    width: 100%;
     padding: 10px;
     background-color: #70bff3;
     color: white;
@@ -21,10 +44,50 @@ button {
     cursor: pointer;
 }
 
-input {
+button:hover {
+    background-color: #555;
+}
+
+p {
+    margin-top: 10px;
+}
+
+p a {
+    color: #70bff3;
+    text-decoration: none;
+}
+
+p a:hover {
+    text-decoration: underline;
+}
+
+/* Alert Styles */
+.alert {
     padding: 10px;
-    margin: 5px;
-    border: 1px solid #ccc;
+    margin-bottom: 15px;
+    border: 1px solid transparent;
     border-radius: 4px;
-    width: 200px;
+    list-style: none; /* Remove bullet points from <li> */
+}
+
+.alert-success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+
+.alert-danger {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+
+/* Link Styles */
+a {
+    color: #007bff; /* Blue color for links */
+    text-decoration: none; /* Remove underline */
+}
+
+a:hover {
+    text-decoration: underline; /* Add underline on hover */
 }

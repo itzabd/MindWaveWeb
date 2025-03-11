@@ -10,7 +10,6 @@
     <h1>Admin Dashboard</h1>
     <p>Welcome, {{ current_user.name }}! (Role: Admin)</p>
 
-
     <h2>Manage Users</h2>
     <ul>
         <li><a href="{{ url_for('list_users') }}">View All Users</a></li>
@@ -28,18 +27,25 @@
         <li><a href="{{ url_for('list_permissions') }}">View All Permissions</a></li>
         <li><a href="{{ url_for('add_permission') }}">Add New Permission</a></li>
     </ul>
+
     <h2>Group Management</h2>
     <ul>
-    <li><a href="{{ url_for('list_groups') }}">View All Groups</a></li>
-    <li><a href="{{ url_for('add_group') }}">Add New Group</a></li>
-    <li><a href="{{ url_for('assign_user_to_group') }}">Assign User to Group</a></li>
-  </ul>
-    <h2>Activity Log</h2>
-       <ul>
-    <li><a href="{{ url_for(' visual') }}"> Visualizations  </a></li>
-    <li><a href="{{ url_for(' ') }}">   </a></li>
+        <li><a href="{{ url_for('list_groups') }}">View All Groups</a></li>
+        <li><a href="{{ url_for('add_group') }}">Add New Group</a></li>
+        <li><a href="{{ url_for('assign_user_to_group') }}">Assign User to Group</a></li>
+    </ul>
 
-  </ul>
+    <h2>Activity Log</h2>
+    <ul>
+        <li><a href="{{ url_for('graph') }}">Visualizations</a></li>
+    </ul>
+
+    <!-- Add Active Sessions Section -->
+    <h2>Active Sessions</h2>
+    <ul>
+        <li><a href="{{ url_for('view_sessions') }}">View Active Sessions</a></li>
+    </ul>
+
     <br>
     <a href="{{ url_for('logout') }}">Logout</a>
 </body>

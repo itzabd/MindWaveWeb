@@ -2,7 +2,6 @@
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 0;
     background-color: #cce6f7;
 }
 
@@ -22,19 +21,24 @@ body {
 .nav-links {
     display: flex;
     gap: 20px;
+    margin-left: auto; /* Pushes the nav-links to the right */
 }
 
-.nav-links a, #loginBtn {
+.nav-links a {
     color: #111111;
     text-decoration: none;
     font-size: 16px;
     background-color: #fce7af;
-    padding: 10px 20px;
+    padding: 5px 10px;
     border-radius: 25px;
     border: 2px solid #111111;
+    text-align: center; /* Centers the text horizontally */
+    display: flex; /* Makes the button a flex container */
+    align-items: center; /* Centers the text vertically */
+    justify-content: center; /* Centers the text horizontally */
+    min-width: 120px; /* Ensures consistent width for all buttons */
 }
 
-.nav-links a:hover, #loginBtn:hover {
+.nav-links a:hover {
     background-color: #555;
 }
-
