@@ -10,7 +10,6 @@
     <h1>User Dashboard</h1>
     <p>Welcome, {{ current_user.name }}! (Role: User)</p>
 
-
     <!-- Display a message and button if email is not verified -->
     {% if not current_user.email_verified %}
         <div class="alert alert-warning">
@@ -21,7 +20,6 @@
             </form>
         </div>
     {% endif %}
-
 
     <h2>Your Profile</h2>
     <ul>
@@ -38,6 +36,12 @@
         {% else %}
             <li>No permissions assigned.</li>
         {% endif %}
+    </ul>
+
+    <!-- Add Active Sessions Section -->
+    <h2>Active Sessions</h2>
+    <ul>
+        <li><a href="{{ url_for('view_sessions') }}">View Active Sessions</a></li>
     </ul>
 
     <br>

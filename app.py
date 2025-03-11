@@ -131,7 +131,9 @@ class User(UserMixin):
         try:
             response = supabase.table('user_logins').insert({
                 'userid': user_id,
-                'login_timestamp': 'now()'  # Automatically set the current timestamp
+                'login_timestamp': 'now()',  # Automatically set the current timestamp
+                'ip_address': request.remote_addr,  # Log the user's IP address
+                'user_agent': request.headers.get('User-Agent')  # Log the user's browser/device info
             }).execute()
             return response.data
         except Exception as e:
@@ -223,8 +225,20 @@ def login():
 @app.route('/logout')
 @login_required
 def logout():
-    logout_user()
-    flash('You have been logged out.', 'success')
+    # Update the logout_timestamp for the current session
+    try:
+        response = supabase.table('user_logins').update({
+            'logout_timestamp': 'now()'  # Use 'now()' to set the current timestamp
+        }).eq('userid', current_user.id).is_('logout_timestamp', 'NULL').execute()
+
+        if response.data:
+            flash('Logged out successfully!', 'success')
+        else:
+            flash('No active session found.', 'info')
+    except Exception as e:
+        flash(f"Error logging out: {str(e)}", 'danger')
+
+    logout_user()  # Clear the Flask-Login session
     return redirect(url_for('home'))
 
 # Signup Route..................................
@@ -697,8 +711,8 @@ def change_password():
 @app.route('/sessions')
 @login_required
 def view_sessions():
-    # Fetch all sessions for the current user
-    response = supabase.table('user_logins').select('*').eq('userid', current_user.id).execute()
+    # Fetch active sessions for the current user
+    response = supabase.table('user_logins').select('*').eq('userid', current_user.id).is_('logout_timestamp', 'NULL').execute()
     sessions = response.data if response.data else []
     return render_template('sessions.html', sessions=sessions)
 @app.route('/logout_all_sessions', methods=['POST'])
@@ -715,6 +729,18 @@ def logout_all_sessions():
         flash(f"Error logging out of all sessions: {str(e)}", 'danger')
 
     return redirect(url_for('dashboard'))
+@app.route('/logout_session/<int:session_id>', methods=['POST'])
+@login_required
+def logout_session(session_id):
+    try:
+        response = supabase.table('user_logins').delete().eq('id', session_id).eq('userid', current_user.id).execute()
+        if response.data:
+            flash('Session logged out successfully!', 'success')
+        else:
+            flash('Session not found.', 'info')
+    except Exception as e:
+        flash(f"Error logging out session: {str(e)}", 'danger')
+    return redirect(url_for('view_sessions'))
 
 #login session End=============
 #Password reset feature
