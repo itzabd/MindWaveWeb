@@ -675,7 +675,6 @@ def statfile(filename):
 # Count male and female occurrences
 gender_counts = df['sex'].value_counts().to_dict()
 edu_distribution = df.groupby(['sex', 'edu_level']).size().unstack(fill_value=0).to_dict()
-
 @app.route('/statuses')
 def statuses():
     return render_template('status.html', male_count=gender_counts.get(1, 0), female_count=gender_counts.get(2, 0), edu_distribution=edu_distribution)
