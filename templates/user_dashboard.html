@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <!-- Add any additional CSS or libraries here -->
 </head>
 <body>
     <h1>User Dashboard</h1>
@@ -21,12 +22,34 @@
         </div>
     {% endif %}
 
+    <!-- Profile Picture Section -->
+<div class="profile-picture-section">
+    <h2>Profile Picture</h2>
+    {% if current_user.profile_picture_url %}
+        <img src="{{ current_user.profile_picture_url }}" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%;">
+    {% else %}
+        <p>No profile picture uploaded.</p>
+    {% endif %}
+</div>
+
+    <!-- Upload Profile Picture Form -->
+    <h3>Upload New Profile Picture</h3>
+    <form action="{{ url_for('upload_profile_picture') }}" method="POST" enctype="multipart/form-data">
+        <div>
+            <label for="file">Choose an image:</label>
+            <input type="file" name="file" id="file" accept="image/*" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Upload</button>
+    </form>
+
+    <!-- Profile Management Section -->
     <h2>Your Profile</h2>
     <ul>
         <li><a href="{{ url_for('edit_profile') }}">Edit Profile</a></li>
         <li><a href="{{ url_for('change_password') }}">Change Password</a></li>
     </ul>
 
+    <!-- Permissions Section -->
     <h2>Your Permissions</h2>
     <ul>
         {% if current_user.get_permissions() %}
@@ -38,14 +61,16 @@
         {% endif %}
     </ul>
 
-    <!-- Add Active Sessions Section -->
+    <!-- Active Sessions Section -->
     <h2>Active Sessions</h2>
     <ul>
         <li><a href="{{ url_for('view_sessions') }}">View Active Sessions</a></li>
     </ul>
 
+    <!-- Delete Account Section -->
     <a href="{{ url_for('delete_account') }}" class="btn btn-danger">Delete Account</a>
 
+    <!-- Logout Link -->
     <br>
     <a href="{{ url_for('logout') }}">Logout</a>
 </body>

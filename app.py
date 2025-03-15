@@ -12,6 +12,16 @@ from flask_login import current_user
 import pandas as pd
 import matplotlib.pyplot as plt
 from datetime import timedelta
+import cloudinary
+from cloudinary.uploader import upload
+from cloudinary.utils import cloudinary_url
+
+# Load Cloudinary credentials from environment variables
+cloudinary.config(
+    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET")
+)
 
 # Load environment variables
 load_dotenv()
@@ -46,14 +56,15 @@ login_manager.login_view = 'login'
 
 # User Class for Flask-Login
 class User(UserMixin):
-    def __init__(self, id, username, name, email, password_hash, email_verified=False, role_id=None):
+    def __init__(self, id, username, name, email, password_hash, email_verified=False, role_id=None, profile_picture_url=None):
         self.id = id
         self.username = username
         self.name = name
         self.email = email
         self.password_hash = password_hash
         self.email_verified = email_verified
-        self.role_id = role_id  # Add role_id field
+        self.role_id = role_id
+        self.profile_picture_url = profile_picture_url  # Add profile picture URL
 
     def __repr__(self):
         return f"<User {self.name}>"
@@ -112,17 +123,16 @@ class User(UserMixin):
         response = supabase.table("users").select("*").eq("id", user_id).execute()
         if response.data:
             user_data = response.data[0]
-            # Filter out the 'password' field (if it exists)
-            filtered_data = {
-                "id": user_data["id"],
-                "username": user_data["username"],
-                "name": user_data["name"],
-                "email": user_data["email"],
-                "password_hash": user_data["password_hash"],
-                "email_verified": user_data.get("email_verified", False),
-                "role_id": user_data.get("role_id")  # Fetch role_id
-            }
-            return User(**filtered_data)
+            return User(
+                id=user_data["id"],
+                username=user_data["username"],
+                name=user_data["name"],
+                email=user_data["email"],
+                password_hash=user_data["password_hash"],
+                email_verified=user_data.get("email_verified", False),
+                role_id=user_data.get("role_id"),
+                profile_picture_url=user_data.get("profile_picture_url")  # Ensure this is included
+            )
         return None
 
     @staticmethod
@@ -909,8 +919,56 @@ def graph():
     return render_template('graph.html', fig=fig, fig2=fig2)
 
 app.route('static/<path:filename>')
-def statfile(filename):
-    return send_file(f'static/{filename}')
+
+#UPLOAD PROFILE PHOTO
+@app.route('/upload_profile_picture', methods=['GET', 'POST'])
+@login_required
+def upload_profile_picture():
+    if request.method == 'POST':
+        # Check if a file was uploaded
+        if 'file' not in request.files:
+            flash('No file uploaded!', 'danger')
+            return redirect(url_for('upload_profile_picture'))
+
+        file = request.files['file']
+
+        # Check if the file is empty
+        if file.filename == '':
+            flash('No file selected!', 'danger')
+            return redirect(url_for('upload_profile_picture'))
+
+        # Check if the file is an image
+        if file and allowed_file(file.filename):
+            try:
+                # Upload the file to Cloudinary
+                upload_result = upload(file, folder="profile_pictures")
+
+                # Get the URL of the uploaded image
+                image_url = upload_result['secure_url']
+
+                # Update the user's profile picture URL in the database
+                response = supabase.table('users').update({
+                    'profile_picture_url': image_url
+                }).eq('id', current_user.id).execute()
+
+                if response.data:
+                    flash('Profile picture updated successfully!', 'success')
+                else:
+                    flash('Failed to update profile picture.', 'danger')
+
+            except Exception as e:
+                flash(f"Error uploading file: {str(e)}", 'danger')
+
+        else:
+            flash('Invalid file type. Only images are allowed.', 'danger')
+
+    # Render the user dashboard template instead of upload_profile_picture.html
+    return render_template('user_dashboard.html')
+
+# Helper function to check allowed file extensions
+def allowed_file(filename):
+    allowed_extensions = {'png', 'jpg', 'jpeg', 'gif'}
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_extensions
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
