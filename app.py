@@ -140,6 +140,19 @@ class User(UserMixin):
             print(f"Error logging session: {e}")
             return None
 
+    # def set_remember_me_token(self, token):
+    #     try:
+    #         # Hardcode a token for testing
+    #         test_token = "test_token_123"
+    #         response = supabase.table('users').update({
+    #             'remember_me_token': test_token
+    #         }).eq('id', self.id).execute()
+    #         print(f"Updated remember_me_token for user {self.id}: {test_token}")  # Debugging
+    #         return response.data
+    #     except Exception as e:
+    #         print(f"Error setting remember me token: {e}")
+    #         return None
+
     def set_remember_me_token(self, token):
         """Store the 'Remember Me' token in the database."""
         try:
@@ -198,6 +211,12 @@ def login():
         user = User.get_by_email(email)
 
         if user and user.check_password(password):
+            # Generate and store the remember_me_token if "Remember Me" is checked
+            if remember_me:
+                token = generate_remember_me_token(user.email)  # Generate the token
+                user.set_remember_me_token(token)  # Store the token in the database
+
+            # Log in the user with Flask-Login
             login_user(user, remember=remember_me)  # Enable remember_me
             session.permanent = True  # Enable session expiry
             User.log_session(user.id)
@@ -221,6 +240,12 @@ def login():
 
 
 
+
+def generate_remember_me_token(email):
+    serializer = URLSafeTimedSerializer(app.secret_key)
+    token = serializer.dumps(email, salt='remember-me')
+    print(f"Generated token: {token}")  # Debugging
+    return token
 # Logout Route
 @app.route('/logout')
 @login_required
