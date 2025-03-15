@@ -18,6 +18,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install flask-mail
 RUN pip install --no-cache-dir matplotlib pandas
+RUN pip install --no-cache-dir cloudinary
 
 # Copy the rest of the application code into the container
 COPY . .
