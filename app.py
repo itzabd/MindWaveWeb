@@ -809,6 +809,39 @@ def reset_password(token):
             flash('Failed to reset password. Please try again.', 'danger')
 
     return render_template('reset_password.html', token=token)
+
+
+@app.route('/user/delete_account', methods=['GET', 'POST'])
+@login_required
+@role_required('user')
+def delete_account():
+    if request.method == 'POST':
+        password = request.form.get('password')
+
+        if not current_user.check_password(password):
+            flash('Incorrect password. Please try again.', 'danger')
+            return redirect(url_for('delete_account'))
+
+        try:
+            # Delete user sessions
+            supabase.table('user_logins').delete().eq('userid', current_user.id).execute()
+
+            # Remove user from groups
+            supabase.table('user_groups').delete().eq('user_id', current_user.id).execute()
+
+            # Delete the user's account
+            response = supabase.table('users').delete().eq('id', current_user.id).execute()
+
+            if response.data:
+                flash('Your account has been deleted successfully.', 'success')
+                logout_user()
+                return redirect(url_for('home'))
+            else:
+                flash('Failed to delete account. Please try again.', 'danger')
+        except Exception as e:
+            flash(f"Error deleting account: {str(e)}", 'danger')
+
+    return render_template('delete_account.html')
 #---------------------------
 def plot():
     # Load and process dataset
