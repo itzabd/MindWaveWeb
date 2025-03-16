@@ -1,32 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Mind Wave Web</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
-        <script src="{{ url_for('static', filename='js/index.js') }}"></script>
-    </head>
-    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mind Wave Web</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
 <body>
+    <!-- Navbar -->
     <div class="navbar">
         <div class="logo">
             <h1>Mind Wave Web</h1>
         </div>
+    </div>
 
-        <div class="nav-links">
-            {% if current_user.is_authenticated %}
-                <p>Welcome, {{ current_user.name }}!</p>
-                <a href="{{ url_for('dashboard') }}">Go to Dashboard</a>
-                <a href="{{ url_for('logout') }}">Logout</a>
-            {% else %}
-                <a href="{{ url_for('login') }}">Login</a>
-            {% endif %}
+{#        <!-- Flash Messages -->#}
+{#{% with messages = get_flashed_messages(with_categories=true) %}#}
+{#    {% if messages %}#}
+{#        <ul class="flash-messages">#}
+{#            {% for category, message in messages %}#}
+{#                <li class="alert alert-{{ category }}">{{ message }}</li>#}
+{#            {% endfor %}#}
+{#        </ul>#}
+{#    {% endif %}#}
+{#{% endwith %}#}
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Welcome Section -->
+        <section class="welcome-section">
+            <h2>Welcome to Mind Wave Web</h2>
+            <p>Your ultimate solution for managing projects and tasks efficiently. Join us to streamline your workflow and achieve your goals faster.</p>
+            <p>If you're new here, feel free to explore as a guest or create an account to get started.</p>
+        </section>
+
+        <!-- Login Section -->
+        <section class="login-section">
+            <h2>Login</h2>
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul class="flash-messages">
+                        {% for category, message in messages %}
+                            <li class="alert alert-{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+
+            <!-- Login Form -->
+            <form method="POST" class="login-form" action="{{ url_for('login') }}">
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <label>
+                    <input type="checkbox" name="remember_me"> Remember Me
+                </label>
+                <button type="submit">Login</button>
+                <p><a href="{{ url_for('request_password_reset') }}">Forgot Password?</a></p>
+                <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign Up</a></p>
+                <p>Or <a href="{{ url_for('login_as_guest') }}">Login as Guest</a></p>
+            </form>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2023 Mind Wave Web. All rights reserved.</p>
+            <p>Contact us: <a href="mailto:support@mindwaveweb.com">support@mindwaveweb.com</a></p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+
+    <!-- Toast Container -->
+    <div aria-live="polite" aria-atomic="true" class="position-fixed top-0 end-0 p-3" style="z-index: 1100">
+        <!-- Login Success Toast -->
+        <div id="loginToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
+            <div class="toast-header">
+                <strong class="me-auto">Mind Wave Web</strong>
+                <small>Just now</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Login successful! Welcome back.
+            </div>
+        </div>
+
+        <!-- Logout Success Toast -->
+        <div id="logoutToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
+            <div class="toast-header">
+                <strong class="me-auto">Mind Wave Web</strong>
+                <small>Just now</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Logout successful! See you soon.
+            </div>
         </div>
     </div>
 
-    <main class="container-fluid py-5 text-center">
-        {% block main %}  {% endblock %}
-    </main>
+
+   <script>
+    // Function to show a toast
+    function showToast(toastId) {
+        const toastElement = document.getElementById(toastId);
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
+    }
+
+    // Check for flash messages and show the appropriate toast
+    const flashMessages = document.querySelectorAll('.flash-messages .alert');
+    flashMessages.forEach(message => {
+        if (message.classList.contains('alert-success')) {
+            showToast('loginToast');  // Show login toast for success messages
+        } else if (message.classList.contains('alert-danger')) {
+            showToast('logoutToast');  // Show logout toast for danger messages
+        }
+    });
+</script>
 </body>
 </html>
