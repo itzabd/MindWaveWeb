@@ -16,17 +16,6 @@
         </div>
     </div>
 
-{#        <!-- Flash Messages -->#}
-{#{% with messages = get_flashed_messages(with_categories=true) %}#}
-{#    {% if messages %}#}
-{#        <ul class="flash-messages">#}
-{#            {% for category, message in messages %}#}
-{#                <li class="alert alert-{{ category }}">{{ message }}</li>#}
-{#            {% endfor %}#}
-{#        </ul>#}
-{#    {% endif %}#}
-{#{% endwith %}#}
-
     <!-- Main Content -->
     <main class="container">
         <!-- Welcome Section -->
@@ -59,7 +48,7 @@
                 </label>
                 <button type="submit">Login</button>
                 <p><a href="{{ url_for('request_password_reset') }}">Forgot Password?</a></p>
-                <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign Up</a></p>
+                <p>Don't have an account? <a href="#" data-bs-toggle="modal" data-bs-target="#signupModal">Sign Up</a></p>
                 <p>Or <a href="{{ url_for('login_as_guest') }}">Login as Guest</a></p>
             </form>
         </section>
@@ -103,25 +92,72 @@
             </div>
         </div>
     </div>
+        <!-- Signup Success Toast -->
+    <div id="signupToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
+        <div class="toast-header">
+            <strong class="me-auto">Mind Wave Web</strong>
+            <small>Just now</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Account created successfully! A verification email has been sent to your email.
+        </div>
+    </div>
+</div>
 
+<!-- Signup Modal -->
+<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="signupModalLabel">Sign Up</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Display Flash Messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <ul>
+                            {% for category, message in messages %}
+                                <li class="alert {{ category }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
 
-   <script>
-    // Function to show a toast
-    function showToast(toastId) {
-        const toastElement = document.getElementById(toastId);
-        const toast = new bootstrap.Toast(toastElement);
-        toast.show();
-    }
+                <!-- Signup Form -->
+                <form action="{{ url_for('signup') }}" method="POST">
+                    <input type="text" name="username" placeholder="Enter your username" required>
+                    <input type="text" name="name" placeholder="Enter your name" required>
+                    <input type="email" name="email" placeholder="Enter your email" required>
+                    <input type="password" name="password" placeholder="Enter your password" required>
+                    <button type="submit" class="btn btn-primary">Sign Up</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <p>Already have an account? <a href="#" data-bs-dismiss="modal">Login</a></p>
+            </div>
+        </div>
+    </div>
+</div>
 
-    // Check for flash messages and show the appropriate toast
-    const flashMessages = document.querySelectorAll('.flash-messages .alert');
-    flashMessages.forEach(message => {
-        if (message.classList.contains('alert-success')) {
-            showToast('loginToast');  // Show login toast for success messages
-        } else if (message.classList.contains('alert-danger')) {
-            showToast('logoutToast');  // Show logout toast for danger messages
+    <script>
+        // Function to show a toast
+        function showToast(toastId) {
+            const toastElement = document.getElementById(toastId);
+            const toast = new bootstrap.Toast(toastElement);
+            toast.show();
         }
-    });
-</script>
+
+        // Check for flash messages and show the appropriate toast
+        const flashMessages = document.querySelectorAll('.flash-messages .alert');
+        flashMessages.forEach(message => {
+            if (message.classList.contains('alert-success')) {
+                showToast('loginToast');  // Show login toast for success messages
+            } else if (message.classList.contains('alert-danger')) {
+                showToast('logoutToast');  // Show logout toast for danger messages
+            }
+        });
+    </script>
 </body>
 </html>

@@ -12,16 +12,7 @@
     <h1>User Dashboard</h1>
     <p>Welcome, {{ current_user.name }}! (Role: User)</p>
 
-    <!-- Flash Messages -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <ul class="flash-messages">
-                {% for category, message in messages %}
-                    <li class="alert alert-{{ category }}">{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
+
 
     <!-- Display a message and button if email is not verified -->
     {% if not current_user.email_verified %}
@@ -85,6 +76,23 @@
     <!-- Logout Link -->
     <br>
     <a href="{{ url_for('logout') }}">Logout</a>
+
+    <style>
+        /* Hide flash messages visually but keep them in the DOM */
+        .flash-messages {
+            display: none;
+        }
+    </style>
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flash-messages">
+                {% for category, message in messages %}
+                    <li class="alert alert-{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
 
     <!-- Toast Container -->
     <div aria-live="polite" aria-atomic="true" class="position-fixed top-0 end-0 p-3" style="z-index: 1100">
