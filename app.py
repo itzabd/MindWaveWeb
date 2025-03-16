@@ -214,8 +214,8 @@ def home():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
+        email = request.form.get('email')
+        password = request.form.get('password')
         remember_me = 'remember_me' in request.form  # Check if "Remember Me" is selected
 
         user = User.get_by_email(email)
@@ -248,33 +248,12 @@ def login():
 
     return render_template('login.html')
 
-
-
-
 def generate_remember_me_token(email):
     serializer = URLSafeTimedSerializer(app.secret_key)
     token = serializer.dumps(email, salt='remember-me')
     print(f"Generated token: {token}")  # Debugging
     return token
-# Logout Route
-@app.route('/logout')
-@login_required
-def logout():
-    # Update the logout_timestamp for the current session
-    try:
-        response = supabase.table('user_logins').update({
-            'logout_timestamp': 'now()'  # Use 'now()' to set the current timestamp
-        }).eq('userid', current_user.id).is_('logout_timestamp', 'NULL').execute()
-
-        if response.data:
-            flash('Logged out successfully!', 'success')
-        else:
-            flash('No active session found.', 'info')
-    except Exception as e:
-        flash(f"Error logging out: {str(e)}", 'danger')
-
-    logout_user()  # Clear the Flask-Login session
-    return redirect(url_for('home'))
+# Logout
 
 # Signup Route..................................
 
@@ -346,8 +325,38 @@ def signup():
             flash(f"Error: {str(e)}", 'danger')
 
     return render_template('signup.html')
+@app.route('/login_as_guest', methods=['GET'])
+def login_as_guest():
+    # Fetch the guest user from the database
+    guest_user = User.get_by_email('guest@example.com')
 
+    if guest_user:
+        # Log in the guest user
+        login_user(guest_user)
+        flash('Logged in as guest successfully!', 'success')
 
+        # Log the guest login session in the database
+        try:
+            response = supabase.table('user_logins').insert({
+                'userid': guest_user.id,  # Log the guest user's ID
+                'login_timestamp': 'now()',  # Automatically set the current timestamp
+                'ip_address': request.remote_addr,  # Log the user's IP address
+                'user_agent': request.headers.get('User-Agent')  # Log the user's browser/device info
+            }).execute()
+
+            if response.data:
+                print("Guest login session logged successfully!")  # Debugging
+            else:
+                print("Failed to log guest login session.")  # Debugging
+
+        except Exception as e:
+            print(f"Error logging guest session: {e}")  # Debugging
+
+        # Redirect to the guest dashboard
+        return redirect(url_for('guest_dashboard'))
+    else:
+        flash('Guest account not found. Please contact support.', 'danger')
+        return redirect(url_for('login'))
 
 # Protected Route (Dashboard)
 @app.route('/dashboard')
@@ -750,20 +759,29 @@ def view_sessions():
     response = supabase.table('user_logins').select('*').eq('userid', current_user.id).is_('logout_timestamp', 'NULL').execute()
     sessions = response.data if response.data else []
     return render_template('sessions.html', sessions=sessions)
-@app.route('/logout_all_sessions', methods=['POST'])
-@login_required
-def logout_all_sessions():
-    # Delete all sessions for the current user
-    try:
-        response = supabase.table('user_logins').delete().eq('userid', current_user.id).execute()
-        if response.data:
-            flash('Logged out of all sessions successfully!', 'success')
-        else:
-            flash('No active sessions found.', 'info')
-    except Exception as e:
-        flash(f"Error logging out of all sessions: {str(e)}", 'danger')
 
-    return redirect(url_for('dashboard'))
+
+@app.route('/logout')
+@login_required
+def logout():
+    # Update the logout_timestamp for the current session
+    try:
+        response = supabase.table('user_logins').update({
+            'logout_timestamp': 'now()'  # Use 'now()' to set the current timestamp
+        }).eq('userid', current_user.id).is_('logout_timestamp', 'NULL').execute()
+
+        if response.data:
+            flash('Logged out successfully!', 'danger')
+        else:
+            flash('No active session found.', 'info')
+    except Exception as e:
+        flash(f"Error logging out: {str(e)}", 'danger')
+
+    logout_user()  # Clear the Flask-Login session
+    return redirect(url_for('home'))
+
+
+
 @app.route('/logout_session/<int:session_id>', methods=['POST'])
 @login_required
 def logout_session(session_id):
