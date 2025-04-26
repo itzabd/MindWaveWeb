@@ -1,0 +1,132 @@
+/* Color Variables */
+:root {
+    --mindwave-primary: #70bff3;
+    --mindwave-secondary: #5aa8d8;
+    --mindwave-dark: #2c3e50;
+    --mindwave-light: #ecf0f1;
+    --mindwave-success: #2ecc71;
+    --mindwave-danger: #e74c3c;
+    --mindwave-warning: #f39c12;
+    --mindwave-info: #3498db;
+}
+
+/* Base Styles */
+body.mindwave-bg {
+    background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+    color: var(--mindwave-dark);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Navbar */
+.mindwave-navbar {
+    background-color: var(--mindwave-primary);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+/* Alerts */
+.mindwave-alert {
+    border-radius: 8px;
+    border: none;
+}
+
+.alert-success {
+    background-color: rgba(46, 204, 113, 0.9);
+    color: white;
+}
+
+.alert-danger {
+    background-color: rgba(231, 76, 60, 0.9);
+    color: white;
+}
+
+/* Cards */
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background-color: var(--mindwave-primary);
+    color: white;
+    border-radius: 12px 12px 0 0 !important;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--mindwave-primary);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+}
+
+.btn-primary:hover {
+    background-color: var(--mindwave-secondary);
+}
+
+/* Forms */
+.form-control {
+    border-radius: 8px;
+    padding: 10px 15px;
+    border: 1px solid #dfe6e9;
+}
+
+.form-control:focus {
+    border-color: var(--mindwave-primary);
+    box-shadow: 0 0 0 0.25rem rgba(112, 191, 243, 0.25);
+}
+
+/* Footer */
+.mindwave-footer {
+    background-color: var(--mindwave-dark);
+    color: white;
+    margin-top: auto;
+}
+
+.mindwave-footer a {
+    color: var(--mindwave-light);
+    text-decoration: none;
+}
+
+.mindwave-footer a:hover {
+    color: var(--mindwave-primary);
+}
+
+/* EEG Specific Styles */
+.eeg-upload-container {
+    background-color: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.eeg-result-card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+
+    .eeg-upload-container {
+        padding: 20px;
+    }
+}

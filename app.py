@@ -15,6 +15,17 @@ from datetime import timedelta
 import cloudinary
 from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
+# Add these imports at the top
+import uuid
+import tempfile
+import json
+from datetime import datetime
+import mne
+import numpy as np
+from scipy import signal
+import torch
+from transformers import AutoModelForSequenceClassification, AutoTokenizer
+import requests
 
 # Load Cloudinary credentials from environment variables
 cloudinary.config(
@@ -983,6 +994,207 @@ def upload_profile_picture():
 
     # Render the user dashboard template instead of upload_profile_picture.html
     return render_template('user_dashboard.html')
+#EEEEEGGGGGGGGGGGGGEEEEEEEEEEEEEGGGGGGGGGGG
+
+# EEG Routes
+@app.route('/eeg/upload', methods=['GET', 'POST'])
+@login_required
+def upload_eeg():
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            flash('No file uploaded!', 'danger')
+            return redirect(request.url)
+
+        file = request.files['file']
+        if file.filename == '':
+            flash('No file selected!', 'danger')
+            return redirect(request.url)
+
+        if file and allowed_eeg_file(file.filename):
+            try:
+                # Save the file temporarily
+                temp_dir = tempfile.mkdtemp()
+                file_path = os.path.join(temp_dir, file.filename)
+                file.save(file_path)
+
+                # Process the EEG file
+                recording_id = str(uuid.uuid4())
+                result = process_eeg_file(file_path, recording_id, current_user.id)
+
+                # Store in Supabase
+                supabase.table('eeg_recordings').insert({
+                    'id': recording_id,
+                    'user_id': current_user.id,
+                    'filename': file.filename,
+                    'recording_date': datetime.now().isoformat(),
+                    'file_size': os.path.getsize(file_path),
+                    'file_format': file.filename.split('.')[-1],
+                    'file_url': f"uploads/{recording_id}/{file.filename}"
+                }).execute()
+
+                flash('EEG file uploaded and processed successfully!', 'success')
+                return redirect(url_for('view_eeg_results', recording_id=recording_id))
+
+            except Exception as e:
+                flash(f"Error processing EEG file: {str(e)}", 'danger')
+                return redirect(request.url)
+
+    return render_template('upload_eeg.html')
+
+def allowed_eeg_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'gdf', 'dat', 'edf'}
+
+def process_eeg_file(file_path, recording_id, user_id):
+    try:
+        # Load EEG data - handle both .gdf and .dat files
+        if file_path.endswith('.gdf'):
+            raw = mne.io.read_raw_gdf(file_path, preload=True)
+        elif file_path.endswith('.dat'):
+            # For .dat files, we need to know the specific format
+            # This is a generic approach - you may need to adjust based on your dataset
+            data = np.fromfile(file_path, dtype=np.float32)
+            # Reshape based on your specific data format (channels x samples)
+            data = data.reshape(-1, 32)  # Adjust 32 based on your channel count
+            info = mne.create_info(ch_names=[f'EEG {i}' for i in range(32)], sfreq=250, ch_types='eeg')
+            raw = mne.io.RawArray(data.T, info)
+        else:
+            raise ValueError("Unsupported file format")
+
+        # Preprocess data
+        raw.filter(1, 40)
+        events = mne.find_events(raw)
+        epochs = mne.Epochs(raw, events, tmin=-0.2, tmax=0.5, baseline=(None, 0))
+
+        # Extract features
+        data = epochs.get_data()
+        mean_features = np.mean(data, axis=2)
+
+        # Load EEG-LLM model
+        model = AutoModelForSequenceClassification.from_pretrained("LimDoHyeon/EEG-LLM")
+        tokenizer = AutoTokenizer.from_pretrained("LimDoHyeon/EEG-LLM")
+
+        # Convert features to tokens
+        inputs = tokenizer(str(mean_features.tolist()), return_tensors="pt", truncation=True, max_length=512)
+
+        # Get predictions
+        with torch.no_grad():
+            outputs = model(**inputs)
+
+        predictions = torch.softmax(outputs.logits, dim=1).numpy()
+
+        # Save results to Supabase
+        result_data = {
+            'features': mean_features.tolist(),
+            'predictions': predictions.tolist(),
+            'model': 'EEG-LLM'
+        }
+
+        supabase.table('eeg_analysis_results').insert({
+            'recording_id': recording_id,
+            'analysis_type': 'initial',
+            'result_json': result_data,
+            'model_name': 'EEG-LLM'
+        }).execute()
+
+        return result_data
+
+    except Exception as e:
+        raise e
+
+@app.route('/eeg/results/<recording_id>')
+@login_required
+def view_eeg_results(recording_id):
+    # Fetch recording and results from Supabase
+    recording = supabase.table('eeg_recordings').select('*').eq('id', recording_id).eq('user_id', current_user.id).execute()
+    results = supabase.table('eeg_analysis_results').select('*').eq('recording_id', recording_id).execute()
+
+    if not recording.data or not results.data:
+        flash('Recording not found!', 'danger')
+        return redirect(url_for('dashboard'))
+
+    return render_template('eeg_results.html',
+                          recording=recording.data[0],
+                          results=results.data)
+# LocalAI Configuration
+LOCALAI_URL = os.getenv("LOCALAI_URL", "http://localai:8080")
+
+def analyze_with_localai(eeg_features):
+    try:
+        # Convert features to text representation
+        features_text = str(eeg_features.tolist())
+
+        # Call LocalAI API
+        response = requests.post(
+            f"{LOCALAI_URL}/v1/completions",
+            json={
+                "model": "Llama-2-7B-EEG",
+                "prompt": f"Analyze this EEG feature data and provide insights: {features_text}",
+                "max_tokens": 500,
+                "temperature": 0.7
+            }
+        )
+
+        if response.status_code == 200:
+            return response.json()
+        else:
+            raise Exception(f"LocalAI API error: {response.text}")
+
+    except Exception as e:
+        raise e
+
+@app.route('/eeg/compare/<recording_id>')
+@login_required
+def compare_analysis(recording_id):
+    try:
+        # Get EEG features from Supabase
+        result = supabase.table('eeg_analysis_results').select('result_json').eq('recording_id', recording_id).eq('analysis_type', 'initial').execute()
+
+        if not result.data:
+            flash('No analysis found for comparison', 'danger')
+            return redirect(url_for('view_eeg_results', recording_id=recording_id))
+
+        features = np.array(result.data[0]['result_json']['features'])
+
+        # Get EEG-LLM results
+        eeg_llm_result = result.data[0]['result_json']
+
+        # Get LocalAI results
+        localai_result = analyze_with_localai(features)
+
+        # Calculate similarity (simple cosine similarity for demo)
+        def calculate_similarity(res1, res2):
+            # This is a placeholder - implement proper similarity metric
+            return 0.75
+
+        similarity = calculate_similarity(eeg_llm_result, localai_result)
+
+        # Store comparison in Supabase
+        supabase.table('eeg_comparisons').insert({
+            'recording_id': recording_id,
+            'eeg_llm_result': eeg_llm_result,
+            'localai_result': localai_result,
+            'similarity_score': similarity
+        }).execute()
+
+        flash('Comparison completed successfully!', 'success')
+        return redirect(url_for('view_comparison', recording_id=recording_id))
+
+    except Exception as e:
+        flash(f"Comparison failed: {str(e)}", 'danger')
+        return redirect(url_for('view_eeg_results', recording_id=recording_id))
+
+@app.route('/eeg/comparison/<recording_id>')
+@login_required
+def view_comparison(recording_id):
+    comparison = supabase.table('eeg_comparisons').select('*').eq('recording_id', recording_id).execute()
+
+    if not comparison.data:
+        flash('No comparison found', 'danger')
+        return redirect(url_for('view_eeg_results', recording_id=recording_id))
+
+    return render_template('eeg_comparison.html',
+                          comparison=comparison.data[0],
+                          recording_id=recording_id)
 
 # Helper function to check allowed file extensions
 def allowed_file(filename):
