@@ -8,8 +8,36 @@ services:
     environment:
       FLASK_APP: app.py
       FLASK_ENV: development
-      SECRET_KEY: "your_super_secret_key"
-      SUPABASE_URL: "https://okhrguykcmeaakxclkbl.supabase.co"
-      SUPABASE_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9raHJndXlrY21lYWFreGNsa2JsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAwNTM0NzMsImV4cCI6MjA1NTYyOTQ3M30.XytMV4yJ5GMmhD_53E4rAByqBSY8GcqD1C0B3IWBjh8"
+      SUPABASE_URL: "your-supabase-url"
+      SUPABASE_KEY: "your-anon-key"
+      LOCALAI_URL: "http://localai:8080"
+      EEG_MODEL_NAME: "eeg-classifier"
+      SECRET_KEY: "your-secret-key"
     volumes:
       - .:/app
+      - ./eeg_data:/app/eeg_data
+    depends_on:
+      - localai
+      - redis  # Add Redis for caching if needed
+
+  localai:
+    image: localai/localai:latest-cpu
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./models:/models
+      - ./eeg_model:/eeg_model  # Directory for your EEG model
+    environment:
+      - MODELS_PATH=/models
+      - PRELOAD_MODELS=/models/eeg-classifier.yaml
+      - DEBUG=true
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/ready"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  redis:  # Optional for caching
+    image: redis:alpine
+    ports:
+      - "6379:6379"

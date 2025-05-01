@@ -1,34 +1,39 @@
-# Use an official Python runtime as the base image
+FROM python:3.11-slim  # Using 3.11 for better compatibility
 
-
-FROM python:3.13-slim
-
-# Set the working directory in the container
 WORKDIR /app
+
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
     libpq-dev \
+    libffi-dev \
+    python3-dev \
+    wget \
     && rm -rf /var/lib/apt/lists/*
 
-
-# Copy the requirements file into the container
+# Install Python dependencies
 COPY requirements.txt .
-
-# Install the dependencies
 RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install flask-mail
-RUN pip install --no-cache-dir matplotlib pandas
 
-# Copy the rest of the application code into the container
+# Additional EEG processing dependencies
+RUN pip install --no-cache-dir \
+    matplotlib \
+    pandas \
+    scipy \
+    scikit-learn \
+    pygdf  # For GDF file support
+
+# Copy application code
 COPY . .
 
 # Set environment variables
 ENV FLASK_APP=app.py
 ENV FLASK_ENV=development
+ENV PYTHONPATH=/app
 
-# Expose the port Flask will run on
+# Create directory for EEG data
+RUN mkdir -p /app/eeg_data
+
 EXPOSE 5000
 
-# Command to run the Flask application
-#CMD ["python", "app.py"]
 CMD ["flask", "run", "--host=0.0.0.0"]

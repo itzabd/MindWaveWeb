@@ -1,0 +1,8 @@
+name: eeg-classifier
+backend: llama
+parameters:
+  model: "eeg-classifier.gguf"
+  n_ctx: 2048
+  n_threads: 4
+context_size: 2048
+gpu_layers: 0  # Set to higher number if using GPU

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Upload EEG Data</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="eeg_file" class="form-label">EEG File (.gdf)</label>
+            <input class="form-control" type="file" id="eeg_file" name="eeg_file" accept=".gdf" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Upload and Process</button>
+    </form>
+</div>
+{% endblock %}

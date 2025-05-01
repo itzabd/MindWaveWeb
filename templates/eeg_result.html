@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>EEG Classification Result</h2>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">File: {{ filename }}</h5>
+            <p class="card-text">
+                <strong>Classification:</strong> {{ result.classification }}<br>
+                <strong>Confidence:</strong> {{ result.confidence }}%
+            </p>
+            <a href="{{ url_for('view_eeg_results') }}" class="btn btn-primary">View All Results</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
