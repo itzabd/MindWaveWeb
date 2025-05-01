@@ -15,6 +15,7 @@ from datetime import timedelta
 import cloudinary
 from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
+from openai import OpenAI
 
 # Load Cloudinary credentials from environment variables
 cloudinary.config(
@@ -982,7 +983,69 @@ def upload_profile_picture():
 
     # Render the user dashboard template instead of upload_profile_picture.html
     return render_template('user_dashboard.html')
+#A
+# Initialize LocalAI client
+localai_client = OpenAI(
+    base_url="http://localhost:8080/v1",  # LocalAI endpoint
+    api_key="localai"  # dummy key, not used by LocalAI
+)
 
+def generate_text(prompt, model="gpt-3.5-turbo"):
+    """Generate text using LocalAI"""
+    try:
+        response = localai_client.chat.completions.create(
+            model=model,
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.7
+        )
+        return response.choices[0].message.content
+    except Exception as e:
+        print(f"Error generating text: {e}")
+        return None
+
+def generate_image(prompt, model="stability-ai"):
+    """Generate image using LocalAI"""
+    try:
+        response = localai_client.images.generate(
+            model=model,
+            prompt=prompt,
+            n=1,
+            size="256x256"
+        )
+        return response.data[0].url
+    except Exception as e:
+        print(f"Error generating image: {e}")
+        return None
+#0kadlmawm
+@app.route('/ai/chat', methods=['GET', 'POST'])
+@login_required
+def ai_chat():
+    if request.method == 'POST':
+        prompt = request.form.get('prompt')
+        if prompt:
+            response = generate_text(prompt)
+            if response:
+                return render_template('ai_chat.html', response=response, prompt=prompt)
+            else:
+                flash('Failed to generate response. Please try again.', 'danger')
+        else:
+            flash('Please enter a prompt.', 'danger')
+    return render_template('ai_chat.html')
+
+@app.route('/ai/generate_image', methods=['GET', 'POST'])
+@login_required
+def ai_generate_image():
+    if request.method == 'POST':
+        prompt = request.form.get('prompt')
+        if prompt:
+            image_url = generate_image(prompt)
+            if image_url:
+                return render_template('ai_image.html', image_url=image_url, prompt=prompt)
+            else:
+                flash('Failed to generate image. Please try again.', 'danger')
+        else:
+            flash('Please enter a prompt.', 'danger')
+    return render_template('ai_image.html')
 # Helper function to check allowed file extensions
 def allowed_file(filename):
     allowed_extensions = {'png', 'jpg', 'jpeg', 'gif'}

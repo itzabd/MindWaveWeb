@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>AI Image Generation</h2>
+    <form method="POST">
+        <div class="form-group">
+            <label for="prompt">Describe the image you want to generate:</label>
+            <textarea class="form-control" id="prompt" name="prompt" rows="3" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Generate Image</button>
+    </form>
+
+    {% if image_url %}
+    <div class="mt-4">
+        <h4>Generated Image:</h4>
+        <img src="{{ image_url }}" alt="AI Generated Image" class="img-fluid">
+        <p class="mt-2"><strong>Prompt:</strong> {{ prompt }}</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

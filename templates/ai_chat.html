@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>AI Chat</h2>
+    <form method="POST">
+        <div class="form-group">
+            <label for="prompt">Enter your prompt:</label>
+            <textarea class="form-control" id="prompt" name="prompt" rows="3" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    {% if prompt %}
+    <div class="mt-4">
+        <h4>Your Prompt:</h4>
+        <p>{{ prompt }}</p>
+        <h4>AI Response:</h4>
+        <p>{{ response }}</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
