@@ -1,19 +1,26 @@
-version: '3.8'
 
-services:
-  web:
-    build: .
-    ports:
-      - "5000:5000"
-      - "8080:8080"  # LocalAI port
-    environment:
-      FLASK_APP: app.py
-      FLASK_ENV: development
-      SECRET_KEY: "your_super_secret_key"
-      SUPABASE_URL: "https://okhrguykcmeaakxclkbl.supabase.co"
-      SUPABASE_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9raHJndXlrY21lYWFreGNsa2JsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAwNTM0NzMsImV4cCI6MjA1NTYyOTQ3M30.XytMV4yJ5GMmhD_53E4rAByqBSY8GcqD1C0B3IWBjh8"
-      LOCALAI_BASE_URL: "http://localhost:8080"
-      OPENAI_API_KEY: "localai"
-    volumes:
-      - .:/app
-    command: sh -c "cd /LocalAI && ./local-ai & flask run --host=0.0.0.0"
+    version: '3.8'
+
+    services:
+      web:
+        build: .
+        ports:
+          - "5000:5000"   # Flask
+          - "8080:8080"   # LocalAI
+        environment:
+          FLASK_APP: app.py
+          FLASK_ENV: development
+          SECRET_KEY: "your_super_secret_key"
+          SUPABASE_URL: "https://okhrguykcmeaakxclkbl.supabase.co"
+          SUPABASE_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9raHJndXlrY21lYWFreGNsa2JsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAwNTM0NzMsImV4cCI6MjA1NTYyOTQ3M30.XytMV4yJ5GMmhD_53E4rAByqBSY8GcqD1C0B3IWBjh8"
+          LOCALAI_BASE_URL: "http://localhost:8080"
+          OPENAI_API_KEY: "localai"
+        volumes:
+          - .:/app
+          - ./models:/models
+        healthcheck:
+          test: [ "CMD", "curl", "-f", "http://localhost:8080/v1/models" ]  # Valid endpoint
+
+          interval: 30s
+          timeout: 30s
+          retries: 3

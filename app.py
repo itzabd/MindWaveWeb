@@ -17,6 +17,8 @@ from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
 from openai import OpenAI
 
+
+
 # Load Cloudinary credentials from environment variables
 cloudinary.config(
     cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
@@ -261,8 +263,9 @@ def generate_remember_me_token(email):
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'demomindwaveweb@gmail.com'
-app.config['MAIL_PASSWORD'] = 'qvpo pdfo xwyy juue' #App Password
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
+
 mail = Mail(app)
 from flask_mail import Message
 
@@ -983,69 +986,49 @@ def upload_profile_picture():
 
     # Render the user dashboard template instead of upload_profile_picture.html
     return render_template('user_dashboard.html')
-#A
-# Initialize LocalAI client
-localai_client = OpenAI(
-    base_url="http://localhost:8080/v1",  # LocalAI endpoint
-    api_key="localai"  # dummy key, not used by LocalAI
-)
-
-def generate_text(prompt, model="gpt-3.5-turbo"):
-    """Generate text using LocalAI"""
-    try:
-        response = localai_client.chat.completions.create(
-            model=model,
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0.7
-        )
-        return response.choices[0].message.content
-    except Exception as e:
-        print(f"Error generating text: {e}")
-        return None
-
-def generate_image(prompt, model="stability-ai"):
-    """Generate image using LocalAI"""
-    try:
-        response = localai_client.images.generate(
-            model=model,
-            prompt=prompt,
-            n=1,
-            size="256x256"
-        )
-        return response.data[0].url
-    except Exception as e:
-        print(f"Error generating image: {e}")
-        return None
-#0kadlmawm
-@app.route('/ai/chat', methods=['GET', 'POST'])
+@app.route('/chat', methods=['GET', 'POST'])
 @login_required
-def ai_chat():
-    if request.method == 'POST':
-        prompt = request.form.get('prompt')
-        if prompt:
-            response = generate_text(prompt)
-            if response:
-                return render_template('ai_chat.html', response=response, prompt=prompt)
-            else:
-                flash('Failed to generate response. Please try again.', 'danger')
-        else:
-            flash('Please enter a prompt.', 'danger')
-    return render_template('ai_chat.html')
+def chat():
+    if not current_user.email_verified:
+        flash("Please verify your email to use this feature.", "warning")
+        return redirect(url_for('user_dashboard'))
 
-@app.route('/ai/generate_image', methods=['GET', 'POST'])
-@login_required
-def ai_generate_image():
-    if request.method == 'POST':
-        prompt = request.form.get('prompt')
-        if prompt:
-            image_url = generate_image(prompt)
-            if image_url:
-                return render_template('ai_image.html', image_url=image_url, prompt=prompt)
-            else:
-                flash('Failed to generate image. Please try again.', 'danger')
-        else:
-            flash('Please enter a prompt.', 'danger')
-    return render_template('ai_image.html')
+    if request.method == 'GET':
+        return render_template("chat_form.html")  # a new HTML page to input user prompt
+
+    # POST logic
+    user_input = request.form.get("user_input", "")
+    if not user_input:
+        flash("Prompt cannot be empty.", "danger")
+        return redirect(url_for("chat"))
+
+    try:
+        response = requests.post(
+            f"{os.getenv('LOCALAI_BASE_URL', 'http://localhost:8080')}/v1/chat/completions",
+            headers={"Content-Type": "application/json"},
+            json={
+                "model": "gpt4all-j",
+                "messages": [{"role": "user", "content": user_input}],
+                "temperature": 0.7
+            }
+        )
+        response.raise_for_status()
+        ai_reply = response.json()['choices'][0]['message']['content']
+    except Exception as e:
+        ai_reply = f"Error: {e}"
+
+    try:
+        supabase.table("chat_history").insert({
+            "user_id": current_user.id,
+            "prompt": user_input,
+            "response": ai_reply
+        }).execute()
+    except Exception as db_error:
+        print("Failed to save chat to Supabase:", db_error)
+
+    return render_template("chat_response.html", user_input=user_input, ai_response=ai_reply)
+
+
 # Helper function to check allowed file extensions
 def allowed_file(filename):
     allowed_extensions = {'png', 'jpg', 'jpeg', 'gif'}

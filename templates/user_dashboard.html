@@ -73,6 +73,19 @@
         {% endif %}
     </ul>
 
+
+    {% if current_user.email_verified %}
+        <div class="ai-chat mt-4">
+            <h3>Talk with LocalAI</h3>
+            <form method="POST" action="{{ url_for('chat') }}">
+                <textarea name="user_input" class="form-control mb-2" rows="3" required></textarea>
+                <button type="submit" class="btn btn-success">Send</button>
+            </form>
+        </div>
+    {% endif %}
+
+
+
     <!-- Active Sessions Section -->
     <h2>Active Sessions</h2>
     <ul>

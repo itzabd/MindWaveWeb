@@ -1,0 +1,4 @@
+name: gpt4all-j
+backend: llama
+parameters:
+  model: ggml-gpt4all-j-v1.3-groovy.bin

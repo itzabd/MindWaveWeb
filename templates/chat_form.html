@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Chat with AI</h2>
+    <form method="POST" action="{{ url_for('chat') }}">
+        <div class="mb-3">
+            <label for="user_input" class="form-label">Your Message:</label>
+            <textarea name="user_input" id="user_input" class="form-control" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Send</button>
+    </form>
+</div>
+{% endblock %}

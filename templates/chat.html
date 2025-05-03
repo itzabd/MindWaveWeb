@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>LocalAI Chat</title>
+</head>
+<body>
+  <h1>Chat with LocalAI</h1>
+  <form method="post" id="chatForm">
+    <input type="text" name="message" placeholder="Say something..." required />
+    <button type="submit">Send</button>
+  </form>
+  <div id="chatResult"></div>
+
+  <script>
+    const form = document.getElementById('chatForm');
+    const result = document.getElementById('chatResult');
+
+    form.onsubmit = async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const res = await fetch('/chat', {
+        method: 'POST',
+        body: formData
+      });
+      const data = await res.json();
+      result.innerHTML = `<p><strong>AI:</strong> ${data.response}</p>`;
+    };
+  </script>
+</body>
+</html>

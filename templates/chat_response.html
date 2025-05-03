@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Chat Result</h2>
+    <div class="mb-3">
+        <strong>You:</strong>
+        <p>{{ user_input }}</p>
+    </div>
+    <div class="mb-3">
+        <strong>AI:</strong>
+        <p>{{ ai_response }}</p>
+    </div>
+    <a href="{{ url_for('chat') }}" class="btn btn-secondary">Back to Chat</a>
+</div>
+{% endblock %}
