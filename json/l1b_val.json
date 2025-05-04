@@ -1,0 +1,482 @@
+[
+    {
+        "messages": [
+            {
+                "role": "system",
+                "content": "Analyze EEG features and predict the label (integer only)."
+            },
+            {
+                "role": "user",
+                "content": "Quantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000"
+            },
+            {
+                "role": "assistant",
+                "content": "2"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "system",
+                "content": "Analyze EEG features and predict the label (integer only)."
+            },
+            {
+                "role": "user",
+                "content": "Quantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000"
+            },
+            {
+                "role": "assistant",
+                "content": "4"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "system",
+                "content": "Analyze EEG features and predict the label (integer only)."
+            },
+            {
+                "role": "user",
+                "content": "Quantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000"
+            },
+            {
+                "role": "assistant",
+                "content": "4"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "system",
+                "content": "Analyze EEG features and predict the label (integer only)."
+            },
+            {
+                "role": "user",
+                "content": "Quantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000"
+            },
+            {
+                "role": "assistant",
+                "content": "1"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "system",
+                "content": "Analyze EEG features and predict the label (integer only)."
+            },
+            {
+                "role": "user",
+                "content": "Quantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000"
+            },
+            {
+                "role": "assistant",
+                "content": "1"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "system",
+                "content": "Analyze EEG features and predict the label (integer only)."
+            },
+            {
+                "role": "user",
+                "content": "Quantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000"
+            },
+            {
+                "role": "assistant",
+                "content": "4"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "system",
+                "content": "Analyze EEG features and predict the label (integer only)."
+            },
+            {
+                "role": "user",
+                "content": "Quantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000"
+            },
+            {
+                "role": "assistant",
+                "content": "2"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "system",
+                "content": "Analyze EEG features and predict the label (integer only)."
+            },
+            {
+                "role": "user",
+                "content": "Quantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000"
+            },
+            {
+                "role": "assistant",
+                "content": "3"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "system",
+                "content": "Analyze EEG features and predict the label (integer only)."
+            },
+            {
+                "role": "user",
+                "content": "Quantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000"
+            },
+            {
+                "role": "assistant",
+                "content": "2"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "system",
+                "content": "Analyze EEG features and predict the label (integer only)."
+            },
+            {
+                "role": "user",
+                "content": "Quantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000"
+            },
+            {
+                "role": "assistant",
+                "content": "2"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "system",
+                "content": "Analyze EEG features and predict the label (integer only)."
+            },
+            {
+                "role": "user",
+                "content": "Quantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000"
+            },
+            {
+                "role": "assistant",
+                "content": "1"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "system",
+                "content": "Analyze EEG features and predict the label (integer only)."
+            },
+            {
+                "role": "user",
+                "content": "Quantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000"
+            },
+            {
+                "role": "assistant",
+                "content": "1"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "system",
+                "content": "Analyze EEG features and predict the label (integer only)."
+            },
+            {
+                "role": "user",
+                "content": "Quantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000"
+            },
+            {
+                "role": "assistant",
+                "content": "2"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "system",
+                "content": "Analyze EEG features and predict the label (integer only)."
+            },
+            {
+                "role": "user",
+                "content": "Quantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000"
+            },
+            {
+                "role": "assistant",
+                "content": "3"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "system",
+                "content": "Analyze EEG features and predict the label (integer only)."
+            },
+            {
+                "role": "user",
+                "content": "Quantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000"
+            },
+            {
+                "role": "assistant",
+                "content": "3"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "system",
+                "content": "Analyze EEG features and predict the label (integer only)."
+            },
+            {
+                "role": "user",
+                "content": "Quantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000"
+            },
+            {
+                "role": "assistant",
+                "content": "2"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "system",
+                "content": "Analyze EEG features and predict the label (integer only)."
+            },
+            {
+                "role": "user",
+                "content": "Quantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000"
+            },
+            {
+                "role": "assistant",
+                "content": "3"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "system",
+                "content": "Analyze EEG features and predict the label (integer only)."
+            },
+            {
+                "role": "user",
+                "content": "Quantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000"
+            },
+            {
+                "role": "assistant",
+                "content": "4"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "system",
+                "content": "Analyze EEG features and predict the label (integer only)."
+            },
+            {
+                "role": "user",
+                "content": "Quantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000"
+            },
+            {
+                "role": "assistant",
+                "content": "3"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "system",
+                "content": "Analyze EEG features and predict the label (integer only)."
+            },
+            {
+                "role": "user",
+                "content": "Quantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000"
+            },
+            {
+                "role": "assistant",
+                "content": "5"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "system",
+                "content": "Analyze EEG features and predict the label (integer only)."
+            },
+            {
+                "role": "user",
+                "content": "Quantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000"
+            },
+            {
+                "role": "assistant",
+                "content": "4"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "system",
+                "content": "Analyze EEG features and predict the label (integer only)."
+            },
+            {
+                "role": "user",
+                "content": "Quantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000"
+            },
+            {
+                "role": "assistant",
+                "content": "3"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "system",
+                "content": "Analyze EEG features and predict the label (integer only)."
+            },
+            {
+                "role": "user",
+                "content": "Quantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000"
+            },
+            {
+                "role": "assistant",
+                "content": "4"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "system",
+                "content": "Analyze EEG features and predict the label (integer only)."
+            },
+            {
+                "role": "user",
+                "content": "Quantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000"
+            },
+            {
+                "role": "assistant",
+                "content": "5"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "system",
+                "content": "Analyze EEG features and predict the label (integer only)."
+            },
+            {
+                "role": "user",
+                "content": "Quantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000"
+            },
+            {
+                "role": "assistant",
+                "content": "2"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "system",
+                "content": "Analyze EEG features and predict the label (integer only)."
+            },
+            {
+                "role": "user",
+                "content": "Quantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000"
+            },
+            {
+                "role": "assistant",
+                "content": "2"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "system",
+                "content": "Analyze EEG features and predict the label (integer only)."
+            },
+            {
+                "role": "user",
+                "content": "Quantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000"
+            },
+            {
+                "role": "assistant",
+                "content": "5"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "system",
+                "content": "Analyze EEG features and predict the label (integer only)."
+            },
+            {
+                "role": "user",
+                "content": "Quantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000"
+            },
+            {
+                "role": "assistant",
+                "content": "5"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "system",
+                "content": "Analyze EEG features and predict the label (integer only)."
+            },
+            {
+                "role": "user",
+                "content": "Quantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000"
+            },
+            {
+                "role": "assistant",
+                "content": "2"
+            }
+        ]
+    },
+    {
+        "messages": [
+            {
+                "role": "system",
+                "content": "Analyze EEG features and predict the label (integer only)."
+            },
+            {
+                "role": "user",
+                "content": "Quantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000"
+            },
+            {
+                "role": "assistant",
+                "content": "3"
+            }
+        ]
+    }
+]

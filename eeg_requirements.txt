@@ -1,0 +1,12 @@
+# Core processing
+mne==1.9.0
+pandas==2.2.2
+numpy==2.0.0
+scikit-learn==1.6.1
+
+# Visualization
+matplotlib==3.8.3
+jupyter==1.0.0
+
+# Utilities
+tqdm==4.66.0

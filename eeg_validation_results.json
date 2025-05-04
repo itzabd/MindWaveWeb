@@ -1,0 +1,735 @@
+{
+  "accuracy": 0.0,
+  "total_examples": 104,
+  "correct_predictions": 0,
+  "details": [
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 4,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 2,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 5,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 4,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 5,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 3,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 4,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 5,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 4,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 5,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 5,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 3,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 4,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 4,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 3,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 1,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 2,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 2,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 3,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 5,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 2,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 1,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 5,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 4,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 3,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 5,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 3,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 3,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 3,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 2,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 2,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 4,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 4,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 1,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 1,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 4,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 2,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 3,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 2,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 2,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 1,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 1,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 2,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 3,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 3,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 2,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 3,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 4,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 3,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 5,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 4,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 3,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 4,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 5,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 2,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 2,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 5,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 5,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 2,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 3,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 1,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 1,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 3,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 4,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 5,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 3,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 5,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 3,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 2,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 3,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 2,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 1,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 3,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 5,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 2,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 4,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 3,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 1,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 2,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 4,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 4,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 4,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 4,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 5,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 3,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 3,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 3,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 5,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 3,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 1,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 2,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 2,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 1,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 1,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 4,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 1,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 1,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 3,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 2,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 3,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 5,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 1,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 4,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    },
+    {
+      "input": "Quantitative EEG: In a 4.0 second period,...",
+      "true": 2,
+      "predicted": null,
+      "status": "INCORRECT",
+      "full_output": "EEG Data:\nQuantitative EEG: In a 4.0 second period,\nat channel FCz:\n  Power in 10-12 Hz: 0.0000\n  Power in 12-14 Hz: 0.0000\nat channel C3:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel Cz:\n  Power in 8-10 Hz: 0.0000\nat channel C4:\n  Power in 20-22 Hz: 0.0000\n  Power in 22-24 Hz: 0.0000\nat channel CP3:\n  Power in 28-30 Hz: 0.0000\nLabel:\nQuantitative"
+    }
+  ]
+}

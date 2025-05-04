@@ -1,15 +1,23 @@
 version: '3.8'
 
 services:
-  web:
-    build: .
+  jupyter:
+    build:
+      context: .
+      dockerfile: Dockerfile.jupyter
     ports:
-      - "5000:5000"
-    environment:
-      FLASK_APP: app.py
-      FLASK_ENV: development
-      SECRET_KEY: "your_super_secret_key"
-      SUPABASE_URL: "https://okhrguykcmeaakxclkbl.supabase.co"
-      SUPABASE_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9raHJndXlrY21lYWFreGNsa2JsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAwNTM0NzMsImV4cCI6MjA1NTYyOTQ3M30.XytMV4yJ5GMmhD_53E4rAByqBSY8GcqD1C0B3IWBjh8"
+      - "8888:8888"
     volumes:
       - .:/app
+      - jupyter-data:/home/jovyan
+    environment:
+      - JUPYTER_TOKEN=your_secure_token
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+
+volumes:
+  jupyter-data:
