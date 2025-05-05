@@ -1,37 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Active Sessions</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Active Sessions – Mind Wave Web</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+  <style>
+    body {
+      background: #f8f9fa;
+      font-family: Arial, sans-serif;
+    }
+    .card {
+      margin: 40px auto;
+      max-width: 900px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+    .card-header {
+      background-color: #343a40;
+      color: #fff;
+      border-radius: 12px 12px 0 0;
+    }
+    .card-footer {
+      background: transparent;
+      border-top: none;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .table-responsive {
+      overflow-x: auto;
+    }
+  </style>
 </head>
 <body>
-    <h1>Active Sessions</h1>
-    <table border="1">
-        <thead>
+
+  <div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h4 class="mb-0">Active Sessions</h4>
+      <form action="{{ url_for('logout_all_sessions') }}" method="POST">
+        <button type="submit" class="btn btn-danger btn-sm">
+          Logout All Sessions
+        </button>
+      </form>
+    </div>
+
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-striped table-hover mb-0">
+          <thead class="table-dark">
             <tr>
-                <th>Session ID</th>
-                <th>Login Time</th>
-                <th>IP Address</th>
-                <th>User Agent</th>
+              <th scope="col">Record ID</th>
+              <th scope="col">Login Time</th>
+              <th scope="col">IP Address</th>
+              <th scope="col">User Agent</th>
+              <th scope="col">Action</th>
             </tr>
-        </thead>
-        <tbody>
+          </thead>
+          <tbody>
             {% for session in sessions %}
             <tr>
-                <td>{{ session.id }}</td>
-                <td>{{ session.login_timestamp }}</td>
-                <td>{{ session.ip_address }}</td>
-                <td>{{ session.user_agent }}</td>
+              <td>{{ session.id }}</td>
+              <td>{{ session.login_timestamp }}</td>
+              <td>{{ session.ip_address }}</td>
+              <td class="text-truncate" style="max-width:200px;">
+                {{ session.user_agent }}
+              </td>
+              <td>
+                <form action="{{ url_for('logout_session', session_id=session.id) }}"
+                      method="POST">
+                  <button type="submit" class="btn btn-outline-danger btn-sm">
+                    Logout
+                  </button>
+                </form>
+              </td>
             </tr>
             {% endfor %}
-        </tbody>
-    </table>
-    <form action="{{ url_for('logout_all_sessions') }}" method="POST">
-        <button type="submit">Logout All Sessions</button>
-    </form>
-    <br>
-    <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card-footer">
+      <a href="{{ url_for('user_dashboard') }}" class="btn btn-secondary">
+        Back to Dashboard
+      </a>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

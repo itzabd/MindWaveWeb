@@ -15,23 +15,39 @@ def load_data(path):
 
 
 def main():
-    # ---->>>>> CHANGE THESE TWO PATHS AS NEEDED <<<<<<----
-    test_csv_path = 'test_mlp.csv'  # Path to your test CSV file
-    model_file_path = 'best_model.joblib'  # Path to your saved trained model
+    # ---->>>>> PATHS TO UPDATE <<<<<<----
+    test_csv_path = 'data/test_mlp.csv'  # Path to test CSV
+    model_file_path = 'models/best_model.joblib'  # Path to saved model
 
-    # Load model and test data
+    # Load model and data
     model = load(model_file_path)
     X_test, y_test = load_data(test_csv_path)
 
-    # Predict and evaluate
+    # Get predictions and probabilities
     preds = model.predict(X_test)
-    acc = accuracy_score(y_test, preds)
-    roc = roc_auc_score(y_test, preds)
+    preds_proba = model.predict_proba(X_test)  # For ROC AUC
 
+    # Calculate metrics
+    acc = accuracy_score(y_test, preds)
+
+    # Handle multi-class ROC AUC
+    try:
+        roc = roc_auc_score(y_test,
+                            preds_proba,
+                            multi_class='ovr',
+                            average='weighted')
+    except Exception as e:
+        print(f"Error calculating ROC AUC: {str(e)}")
+        roc = None
+
+    # Display results
+    print("\n" + "=" * 50)
     print(f"Test Accuracy: {acc:.2%}")
-    print(f"Test ROC AUC: {roc:.2f}")
-    print("Classification Report:")
+    if roc is not None:
+        print(f"Test ROC AUC: {roc:.2f}")
+    print("\nClassification Report:")
     print(classification_report(y_test, preds))
+    print("=" * 50 + "\n")
 
 
 if __name__ == '__main__':

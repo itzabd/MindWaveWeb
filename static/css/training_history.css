@@ -1,0 +1,78 @@
+/* General styling for the page */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f9f9f9;
+}
+
+.container {
+    margin-top: 30px;
+    padding: 20px;
+}
+
+/* Card Styling */
+.card-header {
+    font-size: 1.2rem;
+    padding: 15px;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+/* Tables Styling */
+.table {
+    font-size: 0.9rem;
+}
+
+.table-bordered {
+    border: 1px solid #dee2e6;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.thead-light th {
+    background-color: #f8f9fa;
+    color: #495057;
+}
+
+/* Metric Styling for side-by-side layout */
+.metric-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    padding: 8px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+}
+
+.metric-label {
+    color: #6c757d;
+}
+
+.metric-value {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+/* Classification Report Table Styling */
+.classification-report table {
+    font-size: 0.9rem;
+}
+
+/* Button Styling */
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    padding: 12px 25px;
+    font-size: 16px;
+    border-radius: 8px;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6368;
+    border-color: #5a6368;
+}

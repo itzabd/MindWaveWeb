@@ -18,7 +18,7 @@ def load_data(path):
 
 def main():
     # 👇 Provide your input CSV and output model path here
-    input_csv = 'test_mlp.csv'               # <-- Set your CSV file path here
+    input_csv = 'data/test_mlp.csv'               # <-- Set your CSV file path here
     output_model = 'best_model.joblib'       # <-- Set your desired output model path here
 
     # Load and split data
@@ -69,6 +69,7 @@ def main():
     # Save pipeline
     dump(best, output_model)
     print(f"Model saved to {output_model}")
+
 
 if __name__ == '__main__':
     main()

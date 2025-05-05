@@ -15,6 +15,15 @@ from datetime import timedelta
 import cloudinary
 from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
+import os
+import io
+import sys
+from contextlib import redirect_stdout
+from werkzeug.utils import secure_filename
+import json
+from datetime import datetime
+# At the top of app.py
+from dateutil.parser import parse
 
 # Load Cloudinary credentials from environment variables
 cloudinary.config(
@@ -27,10 +36,23 @@ cloudinary.config(
 load_dotenv()
 
 # Initialize Flask app
+# Add custom Jinja filters
+def datetimeformat(value, format='%Y-%m-%d %H:%M:%S'):
+    if value is None:
+        return ""
+    if isinstance(value, str):
+        # Convert string to datetime object if needed
+        from dateutil.parser import parse
+        value = parse(value)
+    return value.strftime(format)
+
+
 app = Flask(__name__)
 
 # Set maximum content length (file size limit)
 app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024  # 10 MB
+# Register the filter
+app.jinja_env.filters['datetimeformat'] = datetimeformat
 
 
 # Set secret key from environment variables
@@ -794,7 +816,15 @@ def logout_session(session_id):
     except Exception as e:
         flash(f"Error logging out session: {str(e)}", 'danger')
     return redirect(url_for('view_sessions'))
-
+@app.route('/logout_all_sessions', methods=['POST'])
+@login_required
+def logout_all_sessions():
+    supabase.table('user_logins') \
+      .update({'logout_timestamp': 'now()'}) \
+      .eq('userid', current_user.id) \
+      .execute()
+    flash("All sessions logged out", "success")
+    return redirect(url_for('view_sessions'))
 #login session End=============
 #Password reset feature
 def generate_reset_token(email):
@@ -983,6 +1013,264 @@ def upload_profile_picture():
     # Render the user dashboard template instead of upload_profile_picture.html
     return render_template('user_dashboard.html')
 
+#MLP
+# Add to imports
+
+
+
+# Add after other routes
+@app.route('/train_mlp', methods=['GET', 'POST'])
+@login_required
+@role_required('user')
+def train_mlp():
+    if request.method == 'POST':
+        output = io.StringIO()
+        with redirect_stdout(output):
+            try:
+                from mlp_eeg_train import main
+                main()
+            except Exception as e:
+                print(f"Error during training: {str(e)}")
+
+        result = parse_training_output(output.getvalue())
+
+        # Save to Supabase
+        try:
+            training_data = {
+                'user_id': current_user.id,
+                'best_params': json.dumps(result['best_params']),
+                'validation_metrics': json.dumps(result['validation_metrics']),
+                'test_metrics': json.dumps(result['test_metrics']),
+                'classification_reports': json.dumps(result['classification_reports'])
+            }
+
+            response = supabase.table('training_results').insert(training_data).execute()
+
+            if not response.data:
+                flash('Failed to save training results', 'warning')
+
+        except Exception as e:
+            flash(f'Database error: {str(e)}', 'danger')
+
+        return render_template('training_results.html', result=result)
+
+    return render_template('trigger_training.html')
+
+
+def parse_training_output(output):
+    result = {
+        'best_params': {},
+        'validation_cv': '',
+        'validation_metrics': {},
+        'test_metrics': {},
+        'classification_reports': {}
+    }
+
+    lines = output.split('\n')
+    current_section = None
+
+    for line in lines:
+        if line.startswith('Best parameters:'):
+            # Extract parameters section more carefully
+            params_str = line.split('{', 1)[-1].rsplit('}', 1)[0]
+            params = {}
+            for pair in params_str.split(','):
+                pair = pair.strip()
+                if not pair:
+                    continue
+                try:
+                    key, value = pair.split(':', 1)
+                    key = key.strip().replace("'", "").replace('"', "").replace('mlp__', '')
+                    value = value.strip().replace("'", "").replace('"', "")
+                    params[key] = value
+                except ValueError:
+                    continue  # Skip malformed pairs
+            result['best_params'] = params
+
+        elif 'Validation accuracy (CV)' in line:
+            result['validation_cv'] = line.split(': ')[1].strip()
+
+
+        elif 'set:' in line:
+            current_section = line.split(' ')[0].lower()
+            result[current_section + '_metrics'] = {}
+
+        elif 'Accuracy:' in line:
+            result[current_section + '_metrics']['accuracy'] = line.split(': ')[1]
+        elif 'ROC AUC:' in line:
+            result[current_section + '_metrics']['roc_auc'] = line.split(': ')[1]
+
+        elif 'precision' in line and 'recall' in line:
+            current_section = 'classification'
+            result['classification_reports'][current_section] = []
+
+        elif line.strip() and current_section == 'classification':
+            parts = line.split()
+            if len(parts) >= 5 and parts[0].replace('.', '').isdigit():
+                result['classification_reports'][current_section].append({
+                    'class': parts[0],
+                    'precision': parts[1],
+                    'recall': parts[2],
+                    'f1_score': parts[3],
+                    'support': parts[4]
+                })
+
+    return result
+@app.route('/training_history')
+@login_required
+def training_history():
+    try:
+        # Database query
+        response = supabase.table('training_results') \
+            .select('*') \
+            .eq('user_id', current_user.id) \
+            .order('training_date', desc=True) \
+            .execute()
+
+        trainings = []
+        if response.data:
+            for training in response.data:
+                try:
+                    # Safely get values with fallbacks
+                    best_params_str = training.get('best_params', '{}')
+                    validation_metrics_str = training.get('validation_metrics', '{}')
+                    test_metrics_str = training.get('test_metrics', '{}')
+                    classification_reports_str = training.get('classification_reports', '{}')
+
+                    # Parse with error handling
+                    parsed_training = {
+                        **training,
+                        'best_params': json.loads(best_params_str),
+                        'validation_metrics': json.loads(validation_metrics_str),
+                        'test_metrics': json.loads(test_metrics_str),
+                        'classification_reports': json.loads(classification_reports_str)
+                    }
+                    trainings.append(parsed_training)
+
+                except json.JSONDecodeError as e:
+                    print(f"Error parsing JSON for training {training.get('id')}: {str(e)}")
+                    continue  # Skip this entry but continue processing others
+                except KeyError as e:
+                    print(f"Missing key {str(e)} in training data {training.get('id')}")
+                    continue
+                except Exception as e:
+                    print(f"Unexpected error processing training {training.get('id')}: {str(e)}")
+                    continue
+
+    except Exception as e:  # Handle database errors
+        flash(f'Error loading history: {str(e)}', 'danger')
+        trainings = []
+
+    return render_template('training_history.html', trainings=trainings)
+
+@app.route('/test_mlp', methods=['GET', 'POST'])
+@login_required
+@role_required('user')
+def test_mlp():
+    if request.method == 'POST':
+        output = io.StringIO()
+        with redirect_stdout(output):
+            try:
+                from mlp_eeg_test import main
+                main()
+            except Exception as e:
+                print(f"Error during testing: {str(e)}")
+                flash(f"Testing failed: {str(e)}", 'danger')
+                return redirect(url_for('user_dashboard'))
+
+        result = parse_testing_output(output.getvalue())
+
+        # Save to Supabase
+        try:
+            # Ensure `accuracy` is a float between 0 and 1
+            accuracy = result['test_metrics']['accuracy']  # This is already a float between 0 and 1
+            roc_auc = result['test_metrics']['roc_auc']  # This is already a float
+
+            test_data = {
+                'user_id': current_user.id,
+                'accuracy': accuracy,  # Store it directly as a float
+                'roc_auc': roc_auc,    # Store it directly as a float
+                'classification_report': json.dumps(result['classification_report']),
+                'test_details': json.dumps(result)
+            }
+
+            response = supabase.table('test_results').insert(test_data).execute()
+
+            if not response.data:
+                flash('Failed to save test results', 'warning')
+
+        except Exception as e:
+            flash(f'Database error: {str(e)}', 'danger')
+
+        return render_template('test_results.html', result=result)
+
+    return render_template('trigger_test.html')
+
+
+def parse_testing_output(output):
+    result = {
+        'test_metrics': {},
+        'classification_report': {}
+    }
+
+    lines = output.split('\n')
+    current_section = None
+
+    for line in lines:
+        if 'Test Accuracy:' in line:
+            acc_str = line.split(': ')[1].strip().replace('%', '')  # Clean the string if it's a percentage
+            result['test_metrics']['accuracy'] = float(acc_str) / 100  # Ensure it's a float between 0 and 1
+        elif 'Test ROC AUC:' in line:
+            result['test_metrics']['roc_auc'] = float(line.split(': ')[1].strip())  # Convert ROC AUC to float
+        elif 'Classification Report:' in line:
+            current_section = 'classification'
+            result['classification_report']['classes'] = []
+        elif current_section == 'classification' and line.strip():
+            parts = line.split()
+            if len(parts) >= 5 and parts[0].replace('.', '').isdigit():
+                result['classification_report']['classes'].append({
+                    'class': parts[0],
+                    'precision': float(parts[1]),
+                    'recall': float(parts[2]),
+                    'f1_score': float(parts[3]),
+                    'support': int(parts[4])
+                })
+            elif 'accuracy' in line.lower():
+                accuracy_parts = line.split()
+                result['classification_report']['overall_accuracy'] = accuracy_parts[-2]
+                result['classification_report']['support'] = accuracy_parts[-1]
+
+    return result
+
+
+@app.route('/test_history')
+@login_required
+def test_history():
+    try:
+        response = supabase.table('test_results') \
+            .select('*') \
+            .eq('user_id', current_user.id) \
+            .order('test_date', desc=True) \
+            .execute()
+
+        tests = []
+        for test in response.data:
+            try:
+                parsed_test = {
+                    **test,
+                    'classification_report': json.loads(test['classification_report']),
+                    'test_details': json.loads(test['test_details'])
+                }
+                tests.append(parsed_test)
+            except Exception as e:
+                print(f"Error parsing test {test.get('id')}: {str(e)}")
+                continue
+
+    except Exception as e:
+        flash(f'Error loading test history: {str(e)}', 'danger')
+        tests = []
+
+    return render_template('test_history.html', tests=tests)
 # Helper function to check allowed file extensions
 def allowed_file(filename):
     allowed_extensions = {'png', 'jpg', 'jpeg', 'gif'}
