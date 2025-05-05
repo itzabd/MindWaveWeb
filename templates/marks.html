@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Marks</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: 20px auto;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Marks Allocation</h1>
+    <div id="marks-table"></div>
+
+    <script>
+        // Get the data passed from Flask
+        const marksData = {{ marks_data|tojson|safe }};
+
+        // Create the table using D3.js
+        const table = d3.select("#marks-table")
+            .append("table");
+
+        // Add header row
+        table.append("thead")
+            .append("tr")
+            .selectAll("th")
+            .data(["Mark", "Justification for this marking", "Internal Route"])
+            .enter()
+            .append("th")
+            .text(d => d);
+
+        // Add data rows
+        const rows = table.append("tbody")
+            .selectAll("tr")
+            .data(marksData)
+            .enter()
+            .append("tr");
+
+        // Add cells to each row
+        rows.selectAll("td")
+            .data(d => [d.mark, d.justification, d.internal_route])
+            .enter()
+            .append("td")
+            .text(d => d);
+    </script>
+</body>
+</html>
