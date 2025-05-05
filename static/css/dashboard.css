@@ -1,0 +1,59 @@
+/* dashboard.css */
+/* Custom fixes for dashboard layout on top of index.css */
+
+/* Align logo to left, profile button to right */
+.navbar {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center;
+  padding: 10px 24px;
+  background-color: white;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Ensure logo doesn't stretch */
+.navbar .logo {
+  flex: 0 0 auto;
+}
+
+/* Profile button as circular avatar at right */
+.navbar .profile-button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.navbar .profile-button img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Sidebar dropdown styling */
+.sidebar-dropdown {
+  position: absolute;
+  top: 70px;
+  right: 24px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 999;
+  display: none;
+  padding: 10px;
+  min-width: 150px;
+}
+
+.sidebar-dropdown a {
+  display: block;
+  padding: 8px 12px;
+  text-decoration: none;
+  color: #333;
+  border-radius: 6px;
+}
+
+.sidebar-dropdown a:hover {
+  background-color: #f0f0f0;
+}

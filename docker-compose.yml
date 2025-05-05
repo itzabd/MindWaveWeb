@@ -1,8 +1,12 @@
+
 version: '3.8'
 
 services:
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile      # your web‑app Dockerfile
+    container_name: web_app
     ports:
       - "5000:5000"
     environment:
@@ -13,3 +17,18 @@ services:
       SUPABASE_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9raHJndXlrY21lYWFreGNsa2JsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAwNTM0NzMsImV4cCI6MjA1NTYyOTQ3M30.XytMV4yJ5GMmhD_53E4rAByqBSY8GcqD1C0B3IWBjh8"
     volumes:
       - .:/app
+
+  mlp:
+    build:
+      context: .
+      dockerfile: Dockerfile_mlp  # the MLP Dockerfile
+    container_name: mlp_eeg
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+    environment:
+      INPUT_CSV: /app/data/test_mlp.csv
+      OUTPUT_MODEL: /app/models/best_model.joblib
+    # default runs mlp_eeg_train.py; override to run test:
+    # command: ["python", "mlp_eeg_test.py"]
+    command: ["python", "mlp_eeg_train.py"]

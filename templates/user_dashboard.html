@@ -1,140 +1,298 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>User Dashboard – Mind Wave Web</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #cce6f7, #a8d8f0);
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Scope the small avatar in the navbar only */
+    .navbar .profile-button img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    /* Cards grid and cards remain the same */
+    .cards-grid {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      flex: 1;
+      margin: 30px auto;
+      width: 100%;
+      max-width: 1200px;
+    }
+    .card {
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .card-body img {
+      display: block;
+      margin: 0 auto 16px;
+    }
+    .card-body input[type=file] {
+      margin-bottom: 12px;
+    }
+  </style>
 </head>
 <body>
-    <h1>User Dashboard</h1>
-    <p>Welcome, {{ current_user.name }}! (Role: User)</p>
 
-    <!-- Flash Messages -->
+  <!-- Navbar (uses index.css .navbar rules) -->
+  <div class="navbar">
+    <div class="logo">
+      <h1>Mind Wave Web</h1>
+    </div>
+    <button class="profile-button" onclick="toggleSidebar()">
+      {% if current_user.profile_picture_url %}
+        <img src="{{ current_user.profile_picture_url }}" alt="You">
+      {% else %}
+        <img src="{{ url_for('static', filename='default-profile.png') }}" alt="You">
+      {% endif %}
+    </button>
+    <div id="sidebarMenu" class="sidebar-dropdown">
+      <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+  </div>
+
+  <!-- Flash Messages -->
+  <div class="container mt-3">
     {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <ul class="flash-messages">
-                {% for category, message in messages %}
-                    <li class="alert alert-{{ category }}">{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
+      {% if messages %}
+        {% for cat, msg in messages %}
+          <div class="alert alert-{{cat}}">{{msg}}</div>
+        {% endfor %}
+      {% endif %}
     {% endwith %}
+  </div>
 
-    <!-- Display a message and button if email is not verified -->
-    {% if not current_user.email_verified %}
-        <div class="alert alert-warning">
-            Your email is not verified. Please verify your email to access all features.
-            <form action="{{ url_for('resend_verification') }}" method="POST">
-                <input type="hidden" name="email" value="{{ current_user.email }}">
-                <button type="submit" class="btn btn-warning">Resend Verification Email</button>
-            </form>
-        </div>
-    {% endif %}
+  <!-- Cards Grid -->
+  <div class="cards-grid">
 
-    <!-- Profile Picture Section -->
-    <div class="profile-picture-section">
-        <h2>Profile Picture</h2>
+    <!-- 1. Profile Picture + Welcome -->
+    <div class="card">
+      <div class="card-body text-center">
+        <h5 class="card-title">Welcome, {{ current_user.name }} 👋</h5>
+        <h6 class="mt-2">Profile Picture</h6>
         {% if current_user.profile_picture_url %}
-            <img src="{{ current_user.profile_picture_url }}" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%;">
+          <img src="{{ current_user.profile_picture_url }}"
+               alt="Profile"
+               class="rounded-circle"
+               style="width:150px;height:150px;object-fit:cover;">
+          <a href="{{ url_for('upload_profile_picture') }}"
+             class="btn btn-primary mt-3 w-100">
+            Change Picture
+          </a>
         {% else %}
-            <p>No profile picture uploaded.</p>
+          <img src="{{ url_for('static', filename='default-profile.png') }}"
+               alt="Profile"
+               class="rounded-circle"
+               style="width:150px;height:150px;">
+          <form action="{{ url_for('upload_profile_picture') }}"
+                method="POST"
+                enctype="multipart/form-data"
+                class="mt-3">
+            <input type="file" name="file" accept="image/*" class="form-control" required>
+            <button type="submit" class="btn btn-primary mt-2 w-100">
+              Upload Profile Picture
+            </button>
+          </form>
         {% endif %}
+      </div>
     </div>
 
-    <!-- Upload Profile Picture Form -->
-    <h3>Upload New Profile Picture</h3>
-    <form action="{{ url_for('upload_profile_picture') }}" method="POST" enctype="multipart/form-data">
-        <div>
-            <label for="file">Choose an image:</label>
-            <input type="file" name="file" id="file" accept="image/*" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Upload</button>
-    </form>
+    <!-- 2. Edit Profile Form -->
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Edit Profile</h5>
+        <form method="POST" action="{{ url_for('edit_profile') }}">
+          <div class="mb-2">
+            <label for="name" class="form-label">Name</label>
+            <input type="text"
+                   id="name"
+                   name="name"
+                   class="form-control"
+                   value="{{ current_user.name }}"
+                   required>
+          </div>
+          <div class="mb-2">
+            <label for="email" class="form-label">Email</label>
+            <input type="email"
+                   id="email"
+                   name="email"
+                   class="form-control"
+                   value="{{ current_user.email }}"
+                   required>
+          </div>
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text"
+                   id="username"
+                   name="username"
+                   class="form-control"
+                   value="{{ current_user.username }}"
+                   required>
+          </div>
+          <button type="submit" class="btn btn-outline-primary w-100">
+            Save Changes
+          </button>
+        </form>
+      </div>
+    </div>
 
-    <!-- Profile Management Section -->
-    <h2>Your Profile</h2>
-    <ul>
-        <li><a href="{{ url_for('edit_profile') }}">Edit Profile</a></li>
-        <li><a href="{{ url_for('change_password') }}">Change Password</a></li>
-    </ul>
+    <!-- 3. Change Password Form -->
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Change Password</h5>
+        <form method="POST" action="{{ url_for('change_password') }}">
+          <div class="mb-2">
+            <label for="current_password" class="form-label">Current Password</label>
+            <input type="password"
+                   id="current_password"
+                   name="current_password"
+                   class="form-control"
+                   required>
+          </div>
+          <div class="mb-2">
+            <label for="new_password" class="form-label">New Password</label>
+            <input type="password"
+                   id="new_password"
+                   name="new_password"
+                   class="form-control"
+                   required>
+          </div>
+          <div class="mb-3">
+            <label for="confirm_password" class="form-label">Confirm New Password</label>
+            <input type="password"
+                   id="confirm_password"
+                   name="confirm_password"
+                   class="form-control"
+                   required>
+          </div>
+          <button type="submit" class="btn btn-outline-warning w-100">
+            Change Password
+          </button>
+        </form>
+      </div>
+    </div>
 
-    <!-- Permissions Section -->
-    <h2>Your Permissions</h2>
-    <ul>
+    <!-- 4. Active Sessions -->
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Active Sessions</h5>
+        <p class="card-text">Monitor and end your active sessions across devices.</p>
+        <a href="{{ url_for('view_sessions') }}" class="btn btn-secondary w-100">
+          View Sessions
+        </a>
+      </div>
+    </div>
+
+
+    <!-- 5. Your Permissions -->
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Your Permissions</h5>
         {% if current_user.get_permissions() %}
-            {% for permission in current_user.get_permissions() %}
-                <li>{{ permission }}</li>
+          <ul class="list-group list-group-flush">
+            {% for perm in current_user.get_permissions() %}
+              <li class="list-group-item">{{ perm }}</li>
             {% endfor %}
+          </ul>
         {% else %}
-            <li>No permissions assigned.</li>
+          <p class="card-text">No permissions assigned.</p>
         {% endif %}
-    </ul>
-
-    <!-- Active Sessions Section -->
-    <h2>Active Sessions</h2>
-    <ul>
-        <li><a href="{{ url_for('view_sessions') }}">View Active Sessions</a></li>
-    </ul>
-
-    <!-- Delete Account Section -->
-    <a href="{{ url_for('delete_account') }}" class="btn btn-danger">Delete Account</a>
-
-    <!-- Logout Link -->
-    <br>
-    <a href="{{ url_for('logout') }}">Logout</a>
-
-    <!-- Toast Container -->
-    <div aria-live="polite" aria-atomic="true" class="position-fixed top-0 end-0 p-3" style="z-index: 1100">
-        <!-- Login Success Toast -->
-        <div id="loginToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
-            <div class="toast-header">
-                <strong class="me-auto">Mind Wave Web</strong>
-                <small>Just now</small>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-            <div class="toast-body">
-                Login successful! Welcome back.
-            </div>
-        </div>
-
-        <!-- Logout Success Toast -->
-        <div id="logoutToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
-            <div class="toast-header">
-                <strong class="me-auto">Mind Wave Web</strong>
-                <small>Just now</small>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-            <div class="toast-body">
-                Logout successful! See you soon.
-            </div>
-        </div>
+      </div>
     </div>
 
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+      <!-- 6. Train MLP Model -->
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Train MLP Model</h5>
+        <p class="card-text">Start a new training session.</p>
+        <a href="{{ url_for('train_mlp') }}" class="btn btn-success w-100">
+  Go to Training Page
+</a>
+      </div>
+    </div>
 
-    <!-- Toast Trigger Script -->
-    <script>
-        // Function to show a toast
-        function showToast(toastId) {
-            const toastElement = document.getElementById(toastId);
-            const toast = new bootstrap.Toast(toastElement);
-            toast.show();
-        }
 
-        // Check for flash messages and show the appropriate toast
-        const flashMessages = document.querySelectorAll('.flash-messages .alert');
-        flashMessages.forEach(message => {
-            if (message.classList.contains('alert-success')) {
-                showToast('loginToast');
-            } else if (message.classList.contains('alert-danger')) {
-                showToast('logoutToast');
-            }
-        });
-    </script>
+    <!-- 7. Training History -->
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Training History</h5>
+        <p class="card-text">View past training logs.</p>
+        <a href="{{ url_for('training_history') }}" class="btn btn-info w-100">
+          View History
+        </a>
+      </div>
+    </div>
+
+    <!-- 8. Test MLP Model -->
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Test MLP Model</h5>
+        <p class="card-text">Evaluate your model’s performance.</p>
+        <a href="{{ url_for('test_mlp') }}" class="btn btn-warning w-100 mb-2">
+          Run Test
+        </a>
+        <a href="{{ url_for('test_history') }}" class="btn btn-info">
+            <i class="fas fa-history"></i> View Test History
+        </a>
+      </div>
+    </div>
+
+    <!-- 9. Delete Account -->
+    <div class="card">
+      <div class="card-body text-center">
+        <a href="{{ url_for('delete_account') }}" class="btn btn-danger w-100">
+          Delete My Account
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <p>&copy; 2025 Mind Wave Web. All rights reserved.</p>
+      <p>Contact us: <a href="mailto:support@mindwaveweb.com">support@mindwaveweb.com</a></p>
+    </div>
+  </footer>
+
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+  <script>
+    function toggleSidebar() {
+      const menu = document.getElementById('sidebarMenu');
+      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+    window.addEventListener('click', e => {
+      const menu = document.getElementById('sidebarMenu');
+      if (!e.target.closest('.profile-button') && !e.target.closest('.sidebar-dropdown')) {
+        menu.style.display = 'none';
+      }
+    });
+  </script>
 </body>
 </html>

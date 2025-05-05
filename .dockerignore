@@ -6,3 +6,17 @@ __pycache__/
 *.pyd
 *.db
 *.sqlite3
+# Bytecode
+_pycache_/
+*.py[cod]
+
+# Logs, checkpoints, caches, artifacts
+*.log
+*.pt
+*.ckpt
+dataset_cache/
+jsonl/
+eeg_validation_results.json
+
+# Git
+.git/

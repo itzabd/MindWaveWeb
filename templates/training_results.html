@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training Results - Mind Wave Web</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/train_result.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo">
+            <h1>Mind Wave Web</h1>
+        </div>
+    </div>
+    <!-- Main Content -->
+    <main class="container mt-4 mb-5">
+        <h2>Training Results</h2>
+
+        <!-- Best Parameters -->
+        <div class="card mb-4">
+            <div class="card-header">Best Parameters</div>
+            <div class="card-body">
+                <div class="best-parameters">
+                    {% for key, value in result.best_params.items() %}
+                    <div class="parameter-item">
+                        <strong>{{ key }}</strong>: {{ value }}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Validation Metrics -->
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-header">Validation Metrics</div>
+            <div class="card-body">
+                <div class="metrics">
+                    <div class="metric-item">
+                        <strong>CV Accuracy:</strong> {{ result.validation_cv }}
+                    </div>
+                    <div class="metric-item">
+                        <strong>Accuracy:</strong> {{ result.validation_metrics.accuracy }}
+                    </div>
+                    <div class="metric-item">
+                        <strong>ROC AUC:</strong> {{ result.validation_metrics.roc_auc }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Test Metrics -->
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-header">Test Metrics</div>
+            <div class="card-body">
+                <div class="metrics">
+                    <div class="metric-item">
+                        <strong>Accuracy:</strong> {{ result.test_metrics.accuracy }}
+                    </div>
+                    <div class="metric-item">
+                        <strong>ROC AUC:</strong> {{ result.test_metrics.roc_auc }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <!-- Classification Report -->
+        <div class="card">
+            <div class="card-header">Classification Report</div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Class</th>
+                            <th>Precision</th>
+                            <th>Recall</th>
+                            <th>F1-Score</th>
+                            <th>Support</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for report in result.classification_reports.classification %}
+                        <tr>
+                            <td>{{ report.class }}</td>
+                            <td>{{ report.precision }}</td>
+                            <td>{{ report.recall }}</td>
+                            <td>{{ report.f1_score }}</td>
+                            <td>{{ report.support }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+ <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2023 Mind Wave Web. All rights reserved.</p>
+            <p>Contact us: <a href="mailto:support@mindwaveweb.com">support@mindwaveweb.com</a></p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

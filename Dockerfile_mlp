@@ -1,0 +1,17 @@
+# Use Python 3.13 slim base image
+FROM python:3.13-slim
+
+# Set working directory
+WORKDIR /app
+
+# Copy only requirements first (for caching)
+COPY requirements.txt ./
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy training & testing scripts
+COPY mlp_eeg_train.py mlp_eeg_test.py ./
+
+# Default to running training (override in docker-compose or CLI)
+CMD ["python", "mlp_eeg_train.py"]

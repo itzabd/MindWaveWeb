@@ -1,0 +1,128 @@
+/* General styling for the page */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container styling */
+.container {
+    margin-top: 30px;
+    padding: 20px;
+}
+
+/* Card Styling */
+.card-header {
+    font-size: 1.2rem;
+    padding: 15px;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+/* Tables Styling */
+.table {
+    font-size: 0.9rem;
+}
+
+.table-bordered {
+    border: 1px solid #dee2e6;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.thead-light th {
+    background-color: #f8f9fa;
+    color: #495057;
+}
+
+/* Alert and message styling */
+.alert {
+    font-size: 1rem;
+}
+
+/* Classification Report Table Styling */
+.classification-report table {
+    font-size: 0.9rem;
+}
+
+.classification-report .table thead {
+    background-color: #e9ecef;
+}
+
+/* Button Styling */
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    padding: 12px 25px;
+    font-size: 16px;
+    border-radius: 8px;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6368;
+    border-color: #5a6368;
+}
+
+/* Styling for the card's top header */
+.card-header.bg-primary {
+    background-color: #007bff !important;
+    color: white;
+}
+
+/* Styling for validation and test performance cards */
+.card-header.bg-success {
+    background-color: #28a745 !important;
+    color: white;
+}
+
+.card-header.bg-info {
+    background-color: #17a2b8 !important;
+    color: white;
+}
+
+/* Styling for detailed view tables */
+.table-responsive {
+    overflow-x: auto;
+}
+
+.table th, .table td {
+    text-align: center;
+}
+
+/* Hover effect for the whole card */
+.card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px);
+    transition: all 0.3s ease;
+}
+
+/* For the classification report section */
+.classification-report {
+    margin-top: 20px;
+}
+
+.classification-report h5 {
+    font-size: 1.2rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+    .metric-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .card-header {
+        font-size: 1.1rem;
+    }
+
+    .btn-secondary {
+        width: 100%;
+        text-align: center;
+    }
+}
