@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Marks</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 95%;
+            margin: 20px auto;
+            font-family: Arial, sans-serif;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        h1 {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <h1>Marks Allocation</h1>
+    <div id="marks-table"></div>
+
+    <script>
+        const marksData = [
+            {
+                mark: "1. Integrated MLP from Libraries and Console Training",
+                justification: "Integrated a Multi-Layer Perceptron (MLP) model using appropriate machine learning libraries. Successfully executed training and testing on large-scale datasets directly in the console environment, confirming functionality and performance.",
+                internal_route: "MLP implementation and dataset handling via command-line interface for bulk data training/testing."
+            },
+            {
+                mark: "2. Web-Based MLP Training System",
+                justification: "Developed a web-based interface to train the MLP model using a pre-selected dataset. Although the platform supports additional datasets and interactivity, due to time constraints, only one dataset with selected data was used. Training runs successfully on localhost. Due to computational limitations, the Render platform might not handle the full training/testing process. The application displays training information including:<ul><li>Model Configuration</li><li>Training Session Logs</li><li>Activation Functions</li><li>Class Performance (Precision, F1-Score, Support)</li></ul> Training history is stored and categorized session-wise for future reference.",
+                internal_route: "Web app (Flask/Django) served locally for MLP training visualization and session tracking."
+            },
+            {
+                mark: "3. Real-time Testing and Result Visualization",
+                justification: "Implemented real-time model testing through the localhost or `/render()` route. The interface outputs:<ul><li>Validation Accuracy</li><li>Detailed Class Performance including Precision, Recall, F1-Score, and Support</li></ul> Similar to the training phase, test results are saved session-wise for review and comparison.",
+                internal_route: "Testing dashboard with real-time performance metrics at `/render()` endpoint."
+            },
+            {
+                mark: "4. EEG Data Preprocessing",
+                justification: "Preprocessed raw EEG files obtained from a primary data source. The process involved:<ul><li>Converting file types such as `.gdf` and `.txt` into `.csv` format</li><li>Manually adding class/condition labels</li><li>Concatenating multiple files to form a unified dataset</li><li>Saving the final preprocessed data into a structured database</li><li>Selecting a representative portion for model training and testing</li></ul> This ensured compatibility with the MLP pipeline and reduced data noise.",
+                internal_route: "Data cleaning and transformation pipeline from EEG raw files → CSV → labeled DB-ready format."
+            },
+            {
+                mark: "5. Attempted LLM Integration and Fine-Tuning",
+                justification: "Explored multiple lightweight and open-source LLMs including TinyLLM, OpenAI GPT-4o, LocalAI, DistilBERT, and DistilGPT2 for potential fine-tuning. However, due to limited understanding of the fine-tuning requirements for each model, challenges in managing dependencies, and difficulties in Dockerizing the environments, we were unable to proceed beyond initial setup. Nevertheless, we have retained `.py` scripts and configuration files that outline our attempted fine-tuning workflows.",
+                internal_route: "LLM experimentation (TinyLLM, GPT-4o, LocalAI, DistilBERT, DistilGPT2) — `.py` scripts retained for future continuation."
+            }
+        ];
+
+        // Create the table using D3.js
+        const table = d3.select("#marks-table")
+            .append("table");
+
+        // Add header row
+        table.append("thead")
+            .append("tr")
+            .selectAll("th")
+            .data(["Mark", "Justification for this marking", "Internal Route"])
+            .enter()
+            .append("th")
+            .text(d => d);
+
+        // Add data rows
+        const rows = table.append("tbody")
+            .selectAll("tr")
+            .data(marksData)
+            .enter()
+            .append("tr");
+
+        // Add cells to each row
+        rows.selectAll("td")
+            .data(d => [d.mark, d.justification, d.internal_route])
+            .enter()
+            .append("td")
+            .html(d => d); // Use .html to render bullet points
+    </script>
+</body>
+</html>

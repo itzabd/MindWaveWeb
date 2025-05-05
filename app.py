@@ -283,7 +283,7 @@ app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = 'demomindwaveweb@gmail.com'
-app.config['MAIL_PASSWORD'] = 'qvpo pdfo xwyy juue' #App Password
+app.config['MAIL_PASSWORD'] = 'pafm kpix yeal hpdm' #App Password
 mail = Mail(app)
 from flask_mail import Message
 
@@ -1281,6 +1281,32 @@ def test_history():
         tests = []
 
     return render_template('test_history.html', tests=tests)
+
+
+@app.route('/marks')
+def marks():
+    # Data for the marks table
+    marks_data = [
+        {
+            "mark": "5",
+            "justification": "Basic table structure implemented",
+            "internal_route": "/marks"
+        },
+        {
+            "mark": "5",
+            "justification": "D3.js used for table creation",
+            "internal_route": "/marks"
+        },
+        {
+            "mark": "5",
+            "justification": "Minimum 3 rows included",
+            "internal_route": "/marks"
+        }
+    ]
+
+    return render_template('marks.html', marks_data=marks_data)
+
+
 
 # Helper function to check allowed file extensions
 def allowed_file(filename):
