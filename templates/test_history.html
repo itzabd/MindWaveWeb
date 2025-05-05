@@ -25,32 +25,32 @@
                     <small class="float-right">{{ test.test_date|datetimeformat if test.test_date else 'Date not available' }}</small>
                 </h5>
             </div>
-        <!-- Test Accuracy and ROC AUC -->
-<div class="row mb-4">
-    <div class="col-md-6">
-        <div class="metric-item">
-            <span class="metric-label">Test Accuracy:</span>
-            <strong class="metric-value">
-                {{ (test.accuracy * 100)|round(2) if test.accuracy is not none else 'N/A' }}%
-            </strong>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="metric-item">
-            <span class="metric-label">Test ROC AUC:</span>
-            <strong class="metric-value">
-                {{ test.roc_auc|round(3) if test.roc_auc is not none else 'N/A' }}
-            </strong>
-        </div>
-    </div>
-</div>
 
-
+            <div class="card-body">
+                <!-- Test Accuracy and ROC AUC -->
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="metric-item">
+                            <span class="metric-label">Test Accuracy:</span>
+                            <strong class="metric-value">
+                                {{ (test.test_metrics.accuracy * 100)|round(2) }}%
+                            </strong>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="metric-item">
+                            <span class="metric-label">Test ROC AUC:</span>
+                            <strong class="metric-value">
+                                {{ test.test_metrics.roc_auc|round(3) }}
+                            </strong>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Classification Report -->
                 <div class="classification-report">
                     <h5 class="text-primary mb-3"><i class="fas fa-chart-bar"></i> Detailed Class Performance</h5>
-                    {% if test.classification_report %}
+                    {% if test.classification_report and test.classification_report.classes %}
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover">
                             <thead class="thead-light">
@@ -63,7 +63,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for report in test.classification_report.classification %}
+                                {% for report in test.classification_report.classes %}
                                 <tr>
                                     <td>Class {{ report.class }}</td>
                                     <td>{{ (report.precision|float * 100)|round(1) }}%</td>

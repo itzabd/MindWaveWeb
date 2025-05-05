@@ -1242,7 +1242,6 @@ def parse_testing_output(output):
 
     return result
 
-
 @app.route('/test_history')
 @login_required
 def test_history():
@@ -1256,10 +1255,21 @@ def test_history():
         tests = []
         for test in response.data:
             try:
+                # Safely parse JSON fields
+                test_metrics = {}
+                classification_report = {}
+
+                if 'test_details' in test and test['test_details']:
+                    details = json.loads(test['test_details'])
+                    test_metrics = details.get('test_metrics', {})
+
+                if 'classification_report' in test and test['classification_report']:
+                    classification_report = json.loads(test['classification_report'])
+
                 parsed_test = {
                     **test,
-                    'classification_report': json.loads(test['classification_report']),
-                    'test_details': json.loads(test['test_details'])
+                    'test_metrics': test_metrics,
+                    'classification_report': classification_report
                 }
                 tests.append(parsed_test)
             except Exception as e:
@@ -1271,6 +1281,7 @@ def test_history():
         tests = []
 
     return render_template('test_history.html', tests=tests)
+
 # Helper function to check allowed file extensions
 def allowed_file(filename):
     allowed_extensions = {'png', 'jpg', 'jpeg', 'gif'}
